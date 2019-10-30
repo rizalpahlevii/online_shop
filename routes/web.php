@@ -14,3 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['prefix' => 'backoffice'], function () use ($router) {
+    $router->get('/', 'BackOffice\MainController@dashboard');
+});
+
+// store admin
+Route::group(['prefix' => 'admin'], function () use ($router) {
+    $router->get('/', 'StoreAdmin\MainController@dashboard');
+});
