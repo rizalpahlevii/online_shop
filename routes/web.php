@@ -10,21 +10,84 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', 'Frontend\MainController@landing');
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/cart', function () {
+    // Cart::add(1, 'Macbook Pro', 290, 1, array());
+    // Cart::update(1, [
+    //     'quantity' => [
+    //         'relative' => false,
+    //         'value' => 5
+    //     ]
+    // ]);
+    Cart::remove(1);
+    foreach (Cart::getContent() as $product) {
+        echo "Id: $product->id</br>";
+        echo "Name: $product->name</br>";
+        echo "Price $product->price</br>";
+        echo "Quantity $product->quantity</br>";
+    }
 });
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']], function () use ($router) {
+    $router->get('/', 'BackOffice\MainController@dashboard')->name('backoffice.dashboard');
+    $router->group(['prefix' => 'user'], function () use ($router) {
+        $router->get('/', 'BackOffice\UserController@index')->name('backoffice.user_index');
+        $router->get('/create', 'BackOffice\UserController@create')->name('backoffice.user_create');
+        $router->post('/store', 'BackOffice\UserController@store')->name('backoffice.user_store');
+        $router->get('/edit/{id}', 'BackOffice\UserController@show')->name('backoffice.user_show');
+        $router->put('/update/{id}', 'BackOffice\UserController@update')->name('backoffice.user_update');
+        $router->get('/delete/{id}', 'BackOffice\UserController@delete')->name('backoffice.user_delete');
+    });
+    $router->group(['prefix' => 'pcategory'], function () use ($router) {
+        $router->get('/', 'BackOffice\Product_categoryController@index')->name('backoffice.pcategory_index');
+        $router->get('/create', 'BackOffice\Product_categoryController@create')->name('backoffice.pcategory_create');
+        $router->post('/store', 'BackOffice\Product_categoryController@store')->name('backoffice.pcategory_store');
+        $router->get('/edit/{id}', 'BackOffice\Product_categoryController@show')->name('backoffice.pcategory_show');
+        $router->put('/update/{id}', 'BackOffice\Product_categoryController@update')->name('backoffice.pcategory_update');
+        $router->get('/delete/{id}', 'BackOffice\Product_categoryController@delete')->name('backoffice.pcategory_delete');
+    });
+    $router->group(['prefix' => 'profile'], function () use ($router) {
+        $router->get('/', 'BackOffice\ProfileController@profile')->name('backoffice.profile_index');
+        $router->put('/update/{id}', 'BackOffice\ProfileController@updateProfile')->name('backoffice.profile_update');
 
-
-Route::group(['prefix' => 'backoffice'], function () use ($router) {
-    $router->get('/', 'BackOffice\MainController@dashboard');
+        $router->get('/password', 'BackOffice\ProfileController@password')->name('backoffice.profile_password');
+        $router->put('/password/update/{id}', 'BackOffice\ProfileController@updatePassword')->name('backoffice.profile_update_password');
+    });
+    $router->group(['prefix' => 'courier'], function () use ($router) {
+        $router->get('/', 'BackOffice\MainController@getCourier')->name('backoffice.courier');
+        $router->post('/update', 'BackOffice\MainController@postCourierUpdate')->name('backoffice.courier_update');
+    });
 });
 
 // store admin
-Route::group(['prefix' => 'admin'], function () use ($router) {
-    $router->get('/', 'StoreAdmin\MainController@dashboard');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], function () use ($router) {
+    $router->get('/', 'StoreAdmin\MainController@dashboard')->name('admin.dashboard');
+    $router->group(['prefix' => 'product'], function () use ($router) {
+        $router->get('/', 'StoreAdmin\ProductController@index')->name('admin.product_index');
+        $router->get('/create', 'StoreAdmin\ProductController@create')->name('admin.product_create');
+        $router->post('/store', 'StoreAdmin\ProductController@store')->name('admin.product_store');
+        $router->get('/edit/{id}', 'StoreAdmin\ProductController@show')->name('admin.product_show');
+        $router->put('/update/{id}', 'StoreAdmin\ProductController@update')->name('admin.product_update');
+        $router->get('/delete/{id}', 'StoreAdmin\ProductController@delete')->name('admin.product_delete');
+
+        // ajax
+        $router->get('/ajxIncreaseStock/{id}', 'StoreAdmin\ProductController@increaseStock');
+        $router->post('/ajxIncreaseStock', 'StoreAdmin\ProductController@postIncreaseStock');
+        $router->get('/ajxDecreaseStock/{id}', 'StoreAdmin\ProductController@decreaseStock');
+        $router->post('/ajxDecreaseStock', 'StoreAdmin\ProductController@postDecreaseStock');
+    });
+    $router->group(['prefix' => 'setting'], function () use ($router) {
+        $router->get('/store', 'StoreAdmin\SettingController@settingStore')->name('admin.setting_store');
+        $router->get('/courier', 'StoreAdmin\SettingController@settingCourier')->name('admin.setting_courier');
+        $router->post('/courierUpdate', 'StoreAdmin\SettingController@postCourierUpdate');
+    });
+    $router->group(['prefix' => 'profile'], function () use ($router) {
+        $router->get('/', 'StoreAdmin\ProfileController@profile')->name('admin.profile_index');
+        $router->put('/update/{id}', 'StoreAdmin\ProfileController@updateProfile')->name('admin.profile_update');
+
+        $router->get('/password', 'StoreAdmin\ProfileController@password')->name('admin.profile_password');
+        $router->put('/password/update/{id}', 'StoreAdmin\ProfileController@updatePassword')->name('admin.profile_update_password');
+    });
 });

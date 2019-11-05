@@ -1,5 +1,8 @@
 <?php
 
+use App\Courier;
+use App\Store_courier;
+
 if (!function_exists('DummyFunction')) {
 
     /**
@@ -36,5 +39,19 @@ if (!function_exists('set_active')) {
                 return $output;
             }
         }
+    }
+}
+
+if (!function_exists('set_checked_courier')) {
+    function set_checked_courier($store_id, $courier_id)
+    {
+        $courier = Courier::all();
+        $storeCourier = Store_courier::where('store_id', $store_id)->where('courier_id', $courier_id)->get();
+        if ($storeCourier->count() > 0) {
+            $output = 'checked';
+        } else {
+            $output = '';
+        }
+        return $output;
     }
 }

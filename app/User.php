@@ -36,31 +36,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function isSuperAdmin()
+    public function user_type()
     {
-        if ($this->role == "Super Admin") {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->belongsTo(User_type::class, 'user_type_id');
     }
-
-    public function isStoreAdmin()
+    public function isRole($user_type_id)
     {
-        if ($this->role == "Store Admin") {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function isMember()
-    {
-        if ($this->role == "Member") {
-            return true;
-        } else {
-            return false;
-        }
+        $type = User_type::find($user_type_id);
+        return $type->name;
     }
 }

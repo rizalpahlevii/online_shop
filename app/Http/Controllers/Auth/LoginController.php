@@ -27,7 +27,18 @@ class LoginController extends Controller
      * @var string
      */
 
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        $user = auth()->user();
+        if (Auth::user()->isRole($user->user_type_id) == "Super Admin") {
+            return '/backoffice';
+        } elseif (Auth::user()->isRole($user->user_type_id) == "Admin Store") {
+            return '/admin';
+        } else {
+            return '/';
+        }
+    }
 
 
     /**

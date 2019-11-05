@@ -29,7 +29,18 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
+    protected function redirecTo()
+    {
+        $user = auth()->user();
+        if (Auth::user()->isRole($user->user_type_id) == "Super Admin") {
+            return '/backoffice';
+        } elseif (Auth::user()->isRole($user->user_type_id) == "Store Admin") {
+            return '/admin';
+        } else {
+            return '/';
+        }
+    }
 
     /**
      * Create a new controller instance.
@@ -68,7 +79,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'register_datetime' => Carbon::now()
+            'register_datetime' => Carbon::now(),
+            'user_type_id' => 3
         ]);
     }
 }
