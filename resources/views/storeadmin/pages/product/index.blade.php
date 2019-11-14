@@ -66,7 +66,7 @@
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="#" id="increaseStock" data-kode="{{$row->id}}">Increase Stock</a>
                                                     <a class="dropdown-item" href="#" id="decreaseStock" data-kode="{{$row->id}}">Decrease Stock</a>
-                                                    <a class="dropdown-item" href="#" id="edit" data-kode="{{$row->id}}">Edit</a>
+                                                    <a class="dropdown-item" href="{{route('admin.product_show',$row->id)}}" id="edit" data-kode="{{$row->id}}">Edit</a>
                                                     <a class="dropdown-item" href="#" id="changeCategory" data-kode="{{$row->id}}">Change Category</a>
                                                     <a class="dropdown-item" href="#" id="Delete" data-kode="{{$row->id}}">Delete</a>
                                                 </div>

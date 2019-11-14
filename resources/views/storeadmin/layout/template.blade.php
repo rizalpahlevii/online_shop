@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('backend')}}/images/ico/apple-icon-76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="{{asset('backend')}}/images/ico/apple-icon-120.png">
     <link rel="apple-touch-icon" sizes="152x152" href="{{asset('backend')}}/images/ico/apple-icon-152.png">
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('backend')}}/images/ico/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('backend')}}/images/ico/icon.ico">
     <link rel="shortcut icon" type="image/png" href="{{asset('backend')}}/images/ico/favicon-32.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
@@ -37,7 +37,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('backend')}}/css/core/menu/menu-types/vertical-overlay-menu.css">
     <!-- END Page Level CSS-->
     <!-- BEGIN Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('backend')}}/style.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('backend')}}/assets/css/style.css">
     <!-- END Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{url('assets')}}/DataTables/DataTables-1.10.20/css/dataTables.bootstrap4.css">
     <script src="{{url('assets')}}/ckeditor5/ckeditor.js"></script>
@@ -138,6 +138,9 @@
     <script>
       $(document).ready(function(){
         $('#table-backend').dataTable();
+        $('#table-transaction').dataTable({ 
+          "scrollX": true
+        });
       });
     </script>
     <!-- END ROBUST JS-->

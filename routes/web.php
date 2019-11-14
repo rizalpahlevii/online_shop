@@ -11,25 +11,7 @@
 |
 */
 Route::get('/', 'Frontend\MainController@landing');
-
-Route::get('/cart', function () {
-    // Cart::add(1, 'Macbook Pro', 290, 1, array());
-    // Cart::update(1, [
-    //     'quantity' => [
-    //         'relative' => false,
-    //         'value' => 5
-    //     ]
-    // ]);
-    Cart::remove(1);
-    foreach (Cart::getContent() as $product) {
-        echo "Id: $product->id</br>";
-        echo "Name: $product->name</br>";
-        echo "Price $product->price</br>";
-        echo "Quantity $product->quantity</br>";
-    }
-});
 Auth::routes();
-
 Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']], function () use ($router) {
     $router->get('/', 'BackOffice\MainController@dashboard')->name('backoffice.dashboard');
     $router->group(['prefix' => 'user'], function () use ($router) {
@@ -80,7 +62,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], func
     });
     $router->group(['prefix' => 'setting'], function () use ($router) {
         $router->get('/store', 'StoreAdmin\SettingController@settingStore')->name('admin.setting_store');
+        $router->get('/store/edit', 'StoreAdmin\SettingController@settingStoreEdit')->name('admin.setting_store_edit');
+        $router->put('/store/update', 'StoreAdmin\SettingController@settingStoreUpdate')->name('admin.setting_store_update');
+
+
         $router->get('/courier', 'StoreAdmin\SettingController@settingCourier')->name('admin.setting_courier');
+
+
+
+        $router->get('/payment', 'StoreAdmin\SettingController@settingPayment')->name('admin.setting_payment');
+        $router->get('/payment/add', 'StoreAdmin\SettingController@settingPaymentAdd')->name('admin.setting_payment_add');
+        $router->post('/payment/store', 'StoreAdmin\SettingController@settingPaymentStore')->name('admin.setting_payment_store');
+        $router->get('/payment/edit', 'StoreAdmin\SettingController@settingPaymentEdit')->name('admin.setting_payment_edit');
+        $router->put('/payment/update', 'StoreAdmin\SettingController@settingPaymentUpdate')->name('admin.setting_payment_update');
+        $router->get('/payment/delete', 'StoreAdmin\SettingController@settingPaymentDelete')->name('admin.setting_payment_delete');
+
         $router->post('/courierUpdate', 'StoreAdmin\SettingController@postCourierUpdate');
     });
     $router->group(['prefix' => 'profile'], function () use ($router) {
@@ -89,5 +85,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], func
 
         $router->get('/password', 'StoreAdmin\ProfileController@password')->name('admin.profile_password');
         $router->put('/password/update/{id}', 'StoreAdmin\ProfileController@updatePassword')->name('admin.profile_update_password');
+    });
+    $router->group(['prefix' => 'transaction'], function () use ($router) {
+        $router->get('/list', 'StoreAdmin\TransactionController@index')->name('admin.transaction_index');
+        $router->get('/detail/{id}', 'StoreAdmin\TransactionController@detail')->name('admin.transaction_detail');
+        $router->post('/paymentStatus', 'StoreAdmin\TransactionController@changePaymentStatus')->name('admin.transaction_ajxpayment');
+        $router->post('/transactionStatus', 'StoreAdmin\TransactionController@changeTransactionStatus')->name('admin.transaction_ajxtransaction');
     });
 });

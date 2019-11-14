@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 use Image;
+use League\Flysystem\File;
 use PhpParser\Node\Expr\New_;
 
 class ProductController extends Controller
@@ -87,7 +88,7 @@ class ProductController extends Controller
         $mimeType = $image->getMimeType();
         $destinationFolder = public_path('/images/products');
         $img = Image::make($image->getRealPath());
-        $img->resize(263, 280, function ($constraint) {
+        $img->resize(480, 480, function ($constraint) {
             $constraint->aspectRatio();
         })->save($destinationFolder . '/' . $input['imagename']);
         $destinationFolder = public_path('/images/products');
@@ -131,7 +132,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::with('category')->where('id', '=', $id)->first();
+        return view($this->path . 'product.edit', compact('product'));
     }
 
     /**
@@ -154,7 +156,54 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name_product' => 'required|min:3',
+            'code' => 'required|min:2',
+            'purchase_price' => 'required|integer',
+            'selling_price' => 'required|integer',
+            'weight' => 'required|integer',
+            'stock' => 'required|integer',
+            'description' => 'required|min:10',
+        ]);
+        $product = Product::find($id);
+        $oldImage = $product->image;
+        if ($request->image) {
+            $image = $request->file('image');
+            $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
+            $imageName = $image->getClientOriginalName();
+            $extensionFile = $image->getClientOriginalExtension();
+            $realpath = $image->getRealPath();
+            $size = $image->getSize();
+            $mimeType = $image->getMimeType();
+            $destinationFolder = public_path('/images/products');
+            $img = Image::make($image->getRealPath());
+            $img->resize(480, 480, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationFolder . '/' . $input['imagename']);
+            $destinationFolder = public_path('/images/products');
+            $image->move($destinationFolder, $input['imagename']);
+            if (file_exists(public_path('images/products/' . $oldImage))) {
+                \File::delete('images/products/' . $oldImage);
+            }
+            $product->image = $input['imagename'];
+        }
+        $product->name = $request->name_product;
+        $product->purchase_price = $request->purchase_price;
+        $product->code = $request->code;
+        $product->selling_price = $request->selling_price;
+        $product->weight = $request->weight;
+        $product->stock = $request->stock;
+        $product->description = $request->description;
+        if ($product->save()) {
+            $request->session()->flash('status', '<div class="alert alert-primary mb-2" role="alert">
+            <strong>Success!</strong> Success updated product!
+            </div>');
+        } else {
+            $request->session()->flash('status', '<div class="alert alert-danger mb-2" role="alert">
+            <strong>Error!</strong> Cannot updated product!
+            </div>');
+        }
+        return redirect()->route('admin.product_index');
     }
 
     /**
