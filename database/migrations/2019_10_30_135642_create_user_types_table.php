@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateUserTypesTable extends Migration
 {
@@ -18,6 +19,11 @@ class CreateUserTypesTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+        DB::table('user_types')->insert([
+            ['name' => 'Super Admin'],
+            ['name' => 'Admin Store'],
+            ['name' => 'Member']
+        ]);
     }
 
     /**

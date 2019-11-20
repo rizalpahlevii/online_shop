@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateCouriersTable extends Migration
 {
@@ -19,6 +20,11 @@ class CreateCouriersTable extends Migration
             $table->string('title');
             $table->timestamps();
         });
+        DB::table('couriers')->insert([
+            ['code' => 'jne', 'title' => 'JNE', 'status' => 'active'],
+            ['code' => 'pos', 'title' => 'POS', 'status' => 'active'],
+            ['code' => 'tiki', 'title' => 'TIKI', 'status' => 'active']
+        ]);
     }
 
     /**

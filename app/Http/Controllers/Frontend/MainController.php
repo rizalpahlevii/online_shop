@@ -12,6 +12,8 @@ class MainController extends Controller
     {
         $this->frontend = 'frontend.pages.';
     }
-    public function landing()
-    { }
+    public function index()
+    {
+        return view($this->frontend . 'landing');
+    }
 }
