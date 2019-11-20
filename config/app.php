@@ -177,6 +177,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         App\Providers\HelperServicerProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
+        qoraiche\mailEclipse\mailEclipseServiceProvider::class,
     ],
 
     /*
