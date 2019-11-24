@@ -12,6 +12,7 @@ use App\Store_courier;
 use Darryldecode\Cart\Cart;
 use Illuminate\Support\Facades\Auth;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
+use Debugbar;
 
 class MainController extends Controller
 {

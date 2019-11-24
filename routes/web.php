@@ -1,5 +1,6 @@
 <?php
 
+
 Route::group(['namespace' => 'Frontend'], function () use ($router) {
     $router->get('/', 'MainController@index')->name('fe.landing');
     $router->get('/product/{slug}', 'MainController@detail')->name('fe.product_detail');
