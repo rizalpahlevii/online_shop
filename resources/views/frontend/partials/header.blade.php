@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-2 col-6">
-                        <a href="http://bootstrap-ecommerce.com" class="brand-wrap">
+                        <a href="{{route('fe.landing')}}" class="brand-wrap">
                             <img class="logo" src="{{asset('frontend')}}/images/logo.png">
                         </a> <!-- brand-wrap.// -->
                     </div>
@@ -25,7 +25,7 @@
                         <div class="widgets-wrap float-md-right">
                             <div class="widget-header  mr-3">
                                 <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
-                                <span class="badge badge-pill badge-danger notify sum-order">3</span>
+                                <span class="badge badge-pill badge-danger notify sum-order">{{$cartQuantity}}</span>
                             </div>
                             <div class="widget-header icontext">
                                 <a href="#" class="icon icon-sm rounded-circle border" data-toggle="dropdown"><i class="fa fa-user"></i></a>
@@ -33,6 +33,7 @@
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="#">My Profile</a>
                                         <a class="dropdown-item" href="#">Change Password</a>
+                                        <a class="dropdown-item" href="{{route('fe.myorder')}}">My Order</a>
                                         <a class="dropdown-item" href="#">Invoice</a>
                                         <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">Logout</a>

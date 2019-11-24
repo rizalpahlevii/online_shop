@@ -2,6 +2,18 @@
 
 Route::group(['namespace' => 'Frontend'], function () use ($router) {
     $router->get('/', 'MainController@index')->name('fe.landing');
+    $router->get('/product/{slug}', 'MainController@detail')->name('fe.product_detail');
+    $router->get('/category/{slug}', 'MainController@viewCategoryProduct')->name('fe.cat_product');
+    $router->get('/myorder', 'MainController@myOrder')->name('fe.myorder');
+    $router->get('/myorder/purchase', 'MainController@purchase')->name('fe.purchase');
+});
+Route::group(['prefix' => 'ajax'], function () use ($router) {
+    $router->post('/cek-auth', 'Frontend\MainController@cekAuth')->name('cek_auth');
+    $router->post('/get-city', 'Frontend\MainController@getCityByProvinceId')->name('getCityProvince');
+    $router->post('/get-courier', 'Frontend\MainController@getCourier')->name('get_courier');
+    $router->post('/add-to-cart', 'Frontend\MainController@addToCart')->name('add_to_cart');
+    $router->post('/search-min-max', 'Frontend\MainController@searchMinMax')->name('searchminmax');
+    $router->post('/cek-ongkir', 'Frontend\MainController@cekOngkir')->name('cek_ongkir');
 });
 Auth::routes();
 Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']], function () use ($router) {

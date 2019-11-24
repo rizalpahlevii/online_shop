@@ -37,4 +37,16 @@ class Api
         $response = $this->client->request('GET', 'https://api.rajaongkir.com/starter/city?id=' . $city_id);
         return $response->getBody()->getContents();
     }
+    public function cost($params)
+    {
+        $response = $this->client->request('POST', 'https://api.rajaongkir.com/starter/cost', [
+            'form_params' => [
+                'origin' => $params['origin'],
+                'destination' => $params['destination'],
+                'weight' => $params['weight'],
+                'courier' => $params['courier'],
+            ]
+        ]);
+        return $response->getBody()->getContents();
+    }
 }

@@ -31,12 +31,14 @@ class TransactionController extends Controller
 
     public function index()
     {
-        $query = Transaction::with('member', 'courier', 'store', 'invoice')
+        $query = Transaction::with('member', 'courier', 'store')
             ->where('store_id', '=', $this->store->id);
         if (Input::get('payment_status')) {
             $state = Input::get('payment_status');
             if ($state != "all") {
-                $query->where('payment_status', '=', $state);
+                $query->whereHas('invoice', function ($qw) use ($state) {
+                    $qw->where('payment_status', '=', $state);
+                });
             }
         }
         if (Input::get('transaction_status')) {
@@ -51,14 +53,15 @@ class TransactionController extends Controller
     public function detail($id)
     {
         $transaction = Transaction::with('transactionAddress', 'member', 'courier', 'store', 'invoice', 'transactionDetail', 'transactionDetail.product', 'transactionDetail.product.category', 'store.payment')->where('store_id', '=', $this->store->id)->where('id', '=', $id)->first();
-        dd($transaction);
         return view($this->path . 'transaction.detail', compact('transaction'));
     }
     public function changePaymentStatus(Request $request)
     {
         $status = $request->status;
         $transaction_id = $request->transaction_id;
-        $invoice = Invoice::find($transaction_id);
+        $invoice1 = Invoice::where('transaction_id', '=', $transaction_id)->first();
+        $invoice = Invoice::find($invoice1->id);
+
         $invoice->payment_status = $status;
         if ($invoice->save()) {
             return 'success';

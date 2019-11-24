@@ -144,8 +144,8 @@
                             <div class="text-xs-center">
                               <p>Authorized person</p>
                               <img src="{{asset('backend')}}/images/pages/signature-scan.png" alt="signature" class="height-100"/>
-                              <h6>Amanda Orton</h6>
-                              <p class="text-muted">Managing Director</p>
+                              <h6>{{Auth::user()->name}}</h6>
+                              <p class="text-muted">{{Auth::user()->isRole(Auth::user()->user_type_id)}}</p>
                             </div>
                           </div>
                         </div>

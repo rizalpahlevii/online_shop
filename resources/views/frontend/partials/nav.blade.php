@@ -11,12 +11,9 @@
                         <li class="nav-item dropdown">
                         <a class="nav-link pl-0" data-toggle="dropdown" href="#"><strong> <i class="fa fa-bars"></i> &nbsp  All category</strong></a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Foods and Drink</a>
-                            <a class="dropdown-item" href="#">Home interior</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Category 1</a>
-                            <a class="dropdown-item" href="#">Category 2</a>
-                            <a class="dropdown-item" href="#">Category 3</a>
+                            @foreach($productCategory as $rowProductCategory)
+                                <a class="dropdown-item" href="{{route('fe.cat_product',$rowProductCategory->slug)}}">{{$rowProductCategory->name}}</a>
+                            @endforeach
                         </div>
                         </li>
                         <li class="nav-item">
