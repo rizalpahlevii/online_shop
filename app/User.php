@@ -45,4 +45,8 @@ class User extends Authenticatable
         $type = User_type::find($user_type_id);
         return $type->name;
     }
+    public function socialAccounts()
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
 }

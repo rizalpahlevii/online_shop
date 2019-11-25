@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 
-class CreateCouriersTable extends Migration
+class CreateSocialAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +13,11 @@ class CreateCouriersTable extends Migration
      */
     public function up()
     {
-        Schema::create('couriers', function (Blueprint $table) {
+        Schema::create('social_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code');
-            $table->string('title');
+            $table->bigInteger('user_id');
+            $table->string('provicer_id')->unique();
+            $table->string('provider_name');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateCouriersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('couriers');
+        Schema::dropIfExists('social_accounts');
     }
 }
