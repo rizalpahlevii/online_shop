@@ -90,8 +90,7 @@
                                         </div>
                                     </td>
                                     <td class="text-right"> 
-                                    <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a> 
-                                    <a href="" class="btn btn-light"> Remove</a>
+                                    <a href="#" class="btn btn-danger" id="btn-delete-cart" data-kode="{{$row->id}}"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 @php
@@ -132,14 +131,14 @@
                                 <dt>Total price:</dt>
                                 <dd class="text-right">Rp. {{$total}}</dd>
                                 </dl>
-                                <dl class="dlist-align">
+                                {{-- <dl class="dlist-align">
                                 <dt>Discount:</dt>
                                 <dd class="text-right">USD 658</dd>
                                 </dl>
                                 <dl class="dlist-align">
                                 <dt>Total:</dt>
                                 <dd class="text-right  h5"><strong>$1,650</strong></dd>
-                                </dl>
+                                </dl> --}}
                                 <hr>
                                 <p class="text-center mb-3">
                                 <img src="{{asset('frontend')}}/images/misc/payments.png" height="26">
@@ -183,9 +182,22 @@
                     dataType : "json",
                     success:function(response){
                         if(response=="login"){
-                            location.href="{{route('fe.purchase')}}"
+                            location.href="{{route('fe.checkout')}}"
                         }else{
                             location.href="{{route('login')}}"
+                        }
+                    }
+                });
+            });
+            $(document).on('click','#btn-delete-cart',function(){
+                $.ajax({
+                    url : "{{route('delete_cart')}}",
+                    method : "POST",
+                    dataType : "json",
+                    data : {id : $(this).data('kode')},
+                    success:function(response){
+                        if(response="true"){
+                            location.reload();
                         }
                     }
                 });

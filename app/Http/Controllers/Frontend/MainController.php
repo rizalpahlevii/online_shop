@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Frontend;
 
 use Api;
+use App\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\Product_category;
 use App\Store;
 use App\Store_courier;
+use App\Transaction;
+use App\Transaction_address;
+use App\Transaction_courier;
+use App\Transaction_detail;
+use Carbon\Carbon;
 use Darryldecode\Cart\Cart;
 use Illuminate\Support\Facades\Auth;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
 use Debugbar;
+use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
@@ -169,4 +176,79 @@ class MainController extends Controller
         $response = $this->api->city($request->province_id);
         return $response;
     }
+    public function deleteCart(Request $request)
+    {
+        $remove=\Cart::remove($request->id);
+        if($remove){
+            $sts = "true";
+        }else{
+            $sts="false";
+        }
+        return response()->json($sts);
+    }
+    public function postCheckout(Request $request){
+        $address = json_decode($request->address,true);
+        $courier = json_decode($request->courier,true);
+        $store_id = [];
+        $subItem=0;
+        foreach (\Cart::getContent() as $row) {
+            $product = Product::find($row->id);
+            $store_id[] = $product->store_id;
+            $subItem += $product->selling_price * $row->quantity;
+        }
+        $total_amount = $subItem + $courier['value'];
+        DB::beginTransaction();
+        $DbCourier = Courier::where('code',$address['courier_code'])->first();
+        try {
+            $transaction = Transaction::create([
+                'transaction_number' => 'INV'.date('YmdHis'),
+                'store_id' => $store_id[0],
+                'member_id' => $address['member_id'],
+                'courier_id' =>$DbCourier->id,
+                'date' => Carbon::now(),
+                'transaction_status'=>'proccess',
+                'total_amount'=>$total_amount,
+            ]);
+
+
+            $transaction_address = new Transaction_address();
+            $transaction_address->transaction_id = $transaction->id;
+            $transaction_address->province_code = $address['provinceCode'];
+            $transaction_address->province_name = $address['provinceName'];
+            $transaction_address->city_code = $address['kabupatenCode'];
+            $transaction_address->city_name = $address['kabupatenName'];
+            if($address['detail']){
+                $transaction_address->detail = $address['detail'];
+            }
+            $transaction_address->save();
+
+            $transaction_detail = new Transaction_detail();
+            foreach(\Cart::getContent() as $rdt){
+                $product = Product::find($row->id);
+                $transaction_detail->transaction_id = $transaction->id;
+                $transaction_detail->product_id = $rdt->id;
+                $transaction_detail->price = $product->selling_price;
+                $transaction_detail->quantity = $rdt->quantity;
+                $transaction_detail->total = $rdt->quantity * $product->selling_price;
+                $transaction_detail->save();
+            }
+
+            $transaction_courier = new Transaction_courier();
+            $transaction_courier->transaction_id = $transaction->id;
+            $transaction_courier->courier = $courier['courier_name'];
+            $transaction_courier->service = $courier['service'];
+            $transaction_courier->description = $courier['description'];
+            $transaction_courier->etd = $courier['etd'];
+            $transaction_courier->value = $courier['value'];
+            $transaction_courier->save();
+            DB::commit();
+            \Cart::clear();
+            $status = 'success';
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $status = 'error';
+        }
+        return response()->json($status);
+    }
 }
+

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+    protected $fillable = ['transaction_number','store_id','member_id','courier_id','date','transaction_status','total_amount','note','receipt_number'];
     public function store()
     {
         return $this->belongsTo(Store::class, 'store_id');
