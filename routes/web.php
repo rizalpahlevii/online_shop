@@ -7,6 +7,8 @@ Route::group(['namespace' => 'Frontend'], function () use ($router) {
     $router->get('/category/{slug}', 'MainController@viewCategoryProduct')->name('fe.cat_product');
     $router->get('/myorder', 'MainController@myOrder')->name('fe.myorder');
     $router->get('/myorder/checkout', 'MainController@purchase')->name('fe.checkout');
+    $router->get('/profile','MainController@profile')->name('fe.myprofile');
+    $router->get('/profile/edit','MainController@profileEdit')->name('fe.profile_edit');
 });
 Route::group(['prefix' => 'ajax'], function () use ($router) {
     $router->post('/delete-cart','Frontend\MainController@deleteCart')->name('delete_cart');

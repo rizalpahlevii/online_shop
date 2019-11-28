@@ -49,4 +49,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(SocialAccount::class);
     }
+    public function userBank()
+    {
+        return $this->hasOne(User_bank::class);
+    }
 }

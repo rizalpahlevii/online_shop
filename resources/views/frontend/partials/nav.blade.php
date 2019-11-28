@@ -17,25 +17,22 @@
                         </div>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Fashion</a>
+                        <a class="nav-link" href="{{route('fe.landing')}}">Home</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Supermarket</a>
+                        <a class="nav-link" href="#">Products</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Electronics</a>
+                        <a class="nav-link" href="#">Compare</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Baby &amp Toys</a>
+                        <a class="nav-link" href="#">Blog</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Fitness sport</a>
+                        <a class="nav-link" href="#">Contact</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Clothing</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="#">Furnitures</a>
+                        <a class="nav-link" href="#">About</a>
                         </li>
                     </ul>
                 </div> <!-- collapse .// -->

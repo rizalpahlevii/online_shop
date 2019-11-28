@@ -14,6 +14,7 @@ use App\Transaction;
 use App\Transaction_address;
 use App\Transaction_courier;
 use App\Transaction_detail;
+use App\User;
 use Carbon\Carbon;
 use Darryldecode\Cart\Cart;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,10 @@ class MainController extends Controller
         $this->api = new Api;
         $this->cart = \Cart::class;
         $this->middleware(function ($request, $next) {
-            $cartQuantity = \Cart::getTotalQuantity();
+            $cartQuantity = 0;
+            foreach(\Cart::getContent() as $item){
+                $cartQuantity += 1;
+            }
             $this->productCategory = Product_category::all();
             view()->share('cartQuantity', $cartQuantity);
             view()->share('productCategory', $this->productCategory);
@@ -249,6 +253,10 @@ class MainController extends Controller
             $status = 'error';
         }
         return response()->json($status);
+    }
+    public function profile(){
+       $user = User::with('userBank')->where('id', Auth::id())->first();
+       return view($this->frontend . 'myprofile',compact('user'));
     }
 }
 
