@@ -7,11 +7,12 @@ Route::group(['namespace' => 'Frontend'], function () use ($router) {
     $router->get('/category/{slug}', 'MainController@viewCategoryProduct')->name('fe.cat_product');
     $router->get('/myorder', 'MainController@myOrder')->name('fe.myorder');
     $router->get('/myorder/checkout', 'MainController@purchase')->name('fe.checkout');
-    $router->get('/profile','MainController@profile')->name('fe.myprofile');
-    $router->get('/profile/edit','MainController@profileEdit')->name('fe.profile_edit');
+    $router->get('/profile', 'MainController@profile')->name('fe.myprofile');
+    $router->get('/profile/edit', 'MainController@profileEdit')->name('fe.profile_edit');
+    $router->post('/profile/update', 'MainController@profileUpdate')->name('fe.profileUpdate');
 });
 Route::group(['prefix' => 'ajax'], function () use ($router) {
-    $router->post('/delete-cart','Frontend\MainController@deleteCart')->name('delete_cart');
+    $router->post('/delete-cart', 'Frontend\MainController@deleteCart')->name('delete_cart');
     $router->post('/cek-auth', 'Frontend\MainController@cekAuth')->name('cek_auth');
     $router->post('/get-city', 'Frontend\MainController@getCityByProvinceId')->name('getCityProvince');
     $router->post('/get-courier', 'Frontend\MainController@getCourier')->name('get_courier');

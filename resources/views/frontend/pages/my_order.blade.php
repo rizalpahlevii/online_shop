@@ -196,8 +196,13 @@
                     dataType : "json",
                     data : {id : $(this).data('kode')},
                     success:function(response){
-                        if(response="true"){
-                            location.reload();
+                        console.log(response);
+                        if(response.sts="true"){
+                            if(response.quantity > 0){
+                                location.reload();
+                            }else{
+                                location.href="{{route('fe.landing')}}";
+                            }
                         }
                     }
                 });

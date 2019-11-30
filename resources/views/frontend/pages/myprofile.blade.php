@@ -2,6 +2,13 @@
 @section('page','My Profile')
 @section('content')
 <div class="container">
+    <div class="row mt-3">
+        <div class="col-sm-6">
+            @if (Session::has('message'))
+                {!!Session::get('message')!!}
+            @endif
+        </div>
+    </div>
     <div class="row mt-2 mb-2">
         <div class="col-md-4">
             <div class="card">

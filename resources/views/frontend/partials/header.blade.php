@@ -26,14 +26,16 @@
                             <div class="widget-header  mr-3">
                                 <a href="#" class="icon icon-sm rounded-circle border" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i></a>
                                 <span class="badge badge-pill badge-danger notify sum-order">{{$cartQuantity}}</span>
-                                <div class="dropdown-menu">
-                                    @foreach (\Cart::getContent() as $item)
-                                        @php
-                                            $productItem = App\Product::find($item->id);
-                                        @endphp
-                                        <a class="dropdown-item" href="#">{{$productItem->name}} x {{$item->quantity}}</a>
-                                    @endforeach
-                                </div>
+                                @if ($cartQuantity > 0)
+                                    <div class="dropdown-menu">
+                                        @foreach (\Cart::getContent() as $item)
+                                            @php
+                                                $productItem = App\Product::find($item->id);
+                                            @endphp
+                                            <a class="dropdown-item" href="#">{{$productItem->name}} x {{$item->quantity}}</a>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
                             <div class="widget-header icontext">
                                 <a href="#" class="icon icon-sm rounded-circle border" data-toggle="dropdown"><i class="fa fa-user"></i></a>
@@ -41,7 +43,7 @@
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{route('fe.myprofile')}}">My Profile</a>
                                         <a class="dropdown-item" href="#">Change Password</a>
-                                        <a class="dropdown-item" href="{{route('fe.myorder')}}">My Order</a>
+                                        <a class="dropdown-item" href="<?= ($cartQuantity == 0) ? '#' : route('fe.myorder'); ?>">My Cart</a>
                                         <a class="dropdown-item" href="#">Invoice</a>
                                         <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">Logout</a>
