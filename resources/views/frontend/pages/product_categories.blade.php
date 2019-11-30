@@ -103,7 +103,7 @@
                             {{-- <del class="price-old">$1980</del> --}}
                         </div> <!-- price-wrap.// -->
                     </div>
-                    <a href="#" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart </a>
+                    <a href="#" class="btn btn-primary" id="btn-add-cart" data-kode="{{$rowProduct->id}}"><i class="fa fa-shopping-cart"  ></i> Add to cart </a>
                     <a href="{{route('fe.product_detail',$rowProduct->slug)}}" class="btn btn-warning"><i class="fa fa-list"></i> Detail</a>
                 </figcaption>
             </figure>
@@ -123,6 +123,40 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+        $(document).on('click','#btn-add-cart',function(){
+            $.ajax({
+                url : "{{route('add_to_cart')}}",
+                method : "POST",
+                dataType : "json",
+                data : {
+                    product_id : $(this).data('kode'),
+                    qty : 1,
+                },
+                beforeSend:function(){
+                    Swal.fire({
+                        title: 'Loading .....',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        timer: 2000,
+                        onOpen: () => {
+                            Swal.showLoading()
+                        }
+                    })
+                },
+                success:function(response){
+                    if(response == "success"){
+                        Swal.fire( 'Success!','Sukses menambahkan ke keranjang', 'success').then(function(){
+                            location.reload();
+                        });
+                    }else{
+                        Swal.fire('Error!', 'Product Berbeda Toko','error');
+                    }
+                },
+                error:function(request,status,error){
+                    Swal.fire( 'Error!',request.responseText, 'error');
+                }
+            });
         });
     });
 </script>

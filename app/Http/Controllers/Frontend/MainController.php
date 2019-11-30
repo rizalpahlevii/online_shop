@@ -6,6 +6,7 @@ use Api;
 use App\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\NotificationChangePassword;
 use App\Product;
 use App\Product_category;
 use App\Store;
@@ -22,6 +23,9 @@ use Illuminate\Support\Facades\Auth;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
 use Debugbar;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 
 class MainController extends Controller
 {
@@ -50,12 +54,27 @@ class MainController extends Controller
     }
     public function index()
     {
-        $products = Product::with('category')->where('stock', '>', '0')->get();
+        $products = Product::with('category')->where('stock', '>', '0');
+        if (Input::get('search')) {
+            $products->where('name', 'like', '%' . Input::get('search') . '%');
+        }
+        $products = $products->get();
         return view($this->frontend . 'landing', compact('products'));
     }
     public function viewCategoryProduct($slug)
     {
-        $products = Product_category::with('product')->where('slug', '=', $slug)->first();
+        // $products = Product_category::whereHas('product', function ($qw) {
+        //     $qw->where('name', 'like', '%' . Input::get('search') . '%');
+        // })->where('slug', '=', $slug)->first();
+        if (Input::get('search')) {
+            $get = Input::get('search');
+            $products = Product_category::with(['product' => function ($q) use ($get) {
+                $q->where('name', 'like', '%' . $get . '%');
+            }])->where('slug', $slug);
+        } else {
+            $products = Product_category::with('product')->where('slug', $slug);
+        }
+        $products = $products->first();
         $countProduct = 0;
         foreach ($products->product as $rowc) {
             $countProduct += 1;
@@ -324,5 +343,42 @@ class MainController extends Controller
         return redirect()->route('fe.myprofile')->with('message', '<div class="alert alert-' . $warna . '">
        ' . $message . '
       </div>');
+    }
+    public function changePassword()
+    {
+        return view($this->frontend . 'change_password');
+    }
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|min:8',
+            'new_password' => 'min:8',
+            'password_confirmation' => 'required_with:new_password|same:new_password|min:8'
+        ]);
+        if (Hash::check($request->current_password, Auth::user()->password)) {
+            if ($request->current_password == $request->new_password) {
+                $request->session()->flash('message', '<div class="alert alert-warning mb-2" role="alert">
+                <strong>Error!</strong> Password baru tidak boleh sama dengan password saat ini!
+                </div>');
+            } else {
+                $user = User::find(Auth::user()->id);
+                $user->password = Hash::make($request->new_password);
+                if ($user->save()) {
+                    $request->session()->flash('message', '<div class="alert alert-primary mb-2" role="alert">
+                    <strong>Success!</strong> Password berhasil diganti!
+                    </div>');
+                    Mail::to($user->email)->send(new NotificationChangePassword(Auth::user()));
+                } else {
+                    $request->session()->flash('message', '<div class="alert alert-danger mb-2" role="alert">
+                    <strong>Error!</strong> Password gagal diganti!
+                    </div>');
+                }
+            }
+        } else {
+            $request->session()->flash('message', '<div class="alert alert-danger mb-2" role="alert">
+            <strong>Error!</strong> Password saat ini salah!
+            </div>');
+        }
+        return redirect()->route('fe.changePassword');
     }
 }

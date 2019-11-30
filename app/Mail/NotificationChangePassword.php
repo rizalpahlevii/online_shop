@@ -2,13 +2,12 @@
 
 namespace App\Mail;
 
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class WelcomeMember extends Mailable
+class NotificationChangePassword extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,6 +29,6 @@ class WelcomeMember extends Mailable
      */
     public function build()
     {
-        return $this->view('maileclipse::templates.welcomeMember', ['user' => $this->data]);
+        return $this->view('maileclipse::templates.notificationChangePassword', ['user' => $this->data]);
     }
 }

@@ -10,6 +10,8 @@ Route::group(['namespace' => 'Frontend'], function () use ($router) {
     $router->get('/profile', 'MainController@profile')->name('fe.myprofile');
     $router->get('/profile/edit', 'MainController@profileEdit')->name('fe.profile_edit');
     $router->post('/profile/update', 'MainController@profileUpdate')->name('fe.profileUpdate');
+    $router->get('/change-password', 'MainController@changePassword')->name('fe.changePassword');
+    $router->post('/password/update', 'MainController@updatePassword')->name('fe.updatePassword');
 });
 Route::group(['prefix' => 'ajax'], function () use ($router) {
     $router->post('/delete-cart', 'Frontend\MainController@deleteCart')->name('delete_cart');

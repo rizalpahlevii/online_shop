@@ -10,9 +10,9 @@
                         </a> <!-- brand-wrap.// -->
                     </div>
                     <div class="col-lg-6 col-12 col-sm-12">
-                        <form action="#" class="search">
+                        <form action="" class="search" method="GET">
                             <div class="input-group w-100">
-                                <input type="text" class="form-control" placeholder="Search">
+                                <input type="text" name="search" class="form-control" placeholder="Search" value="<?= isset($_GET['search']) ? $_GET['search']:''; ?>">
                                 <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fa fa-search"></i>
@@ -42,7 +42,7 @@
                                 @if (Auth::check())
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{route('fe.myprofile')}}">My Profile</a>
-                                        <a class="dropdown-item" href="#">Change Password</a>
+                                        <a class="dropdown-item" href="{{route('fe.changePassword')}}">Change Password</a>
                                         <a class="dropdown-item" href="<?= ($cartQuantity == 0) ? '#' : route('fe.myorder'); ?>">My Cart</a>
                                         <a class="dropdown-item" href="#">Invoice</a>
                                         <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();

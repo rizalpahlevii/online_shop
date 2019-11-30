@@ -8,18 +8,24 @@
 	
 				
 			<div class="row">
-				@foreach($products as $rowProduct)
-					<div class="col-md-3">
-						<div href="#" class="card card-product-grid">
-							<a href="{{route('fe.product_detail',$rowProduct->slug)}}" class="img-wrap"> <img src="{{asset('images')}}/products/{{$rowProduct->image}}"> </a>
-							<figcaption class="info-wrap">
-								<a href="#" class="title">{{$rowProduct->name}}</a>
-								
-								<div class="price mt-1">Rp. {{$rowProduct->selling_price}}</div> <!-- price-wrap.// -->
-							</figcaption>
-						</div>
-					</div> <!-- col.// -->
-				@endforeach
+				@if (count($products) > 1)
+					@foreach($products as $rowProduct)
+						<div class="col-md-3">
+							<div href="#" class="card card-product-grid">
+								<a href="{{route('fe.product_detail',$rowProduct->slug)}}" class="img-wrap"> <img src="{{asset('images')}}/products/{{$rowProduct->image}}"> </a>
+								<figcaption class="info-wrap">
+									<a href="#" class="title">{{$rowProduct->name}}</a>
+									
+									<div class="price mt-1">Rp. {{$rowProduct->selling_price}}</div> <!-- price-wrap.// -->
+								</figcaption>
+							</div>
+						</div> <!-- col.// -->
+					@endforeach
+				@else
+				<div class="col-md-12">
+					<h6 class="text-center">0 Items found</h6>
+				</div>
+				@endif
 			</div>
 		</div>
 </section>
