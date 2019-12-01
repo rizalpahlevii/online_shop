@@ -53,4 +53,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(User_bank::class);
     }
+    public function store()
+    {
+        return $this->hasOne(Store::class);
+    }
 }

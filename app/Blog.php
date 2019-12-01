@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Store extends Model
+class Blog extends Model
 {
     use Sluggable;
     public function sluggable()
@@ -15,13 +15,5 @@ class Store extends Model
                 'source' => 'name'
             ]
         ];
-    }
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-    public function payment()
-    {
-        return $this->hasOne(Store_payment::class);
     }
 }

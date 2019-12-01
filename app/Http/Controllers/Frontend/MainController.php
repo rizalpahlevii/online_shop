@@ -266,6 +266,8 @@ class MainController extends Controller
                 $transaction_detail->quantity = $rdt->quantity;
                 $transaction_detail->total = $rdt->quantity * $product->selling_price;
                 $transaction_detail->save();
+                $product->stock -= $rdt->quantity;
+                $product->save();
             }
 
             $transaction_courier = new Transaction_courier();

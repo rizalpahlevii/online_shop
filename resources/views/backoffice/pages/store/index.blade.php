@@ -1,5 +1,5 @@
 @extends('backoffice.layout.template')
-@section('page','User')
+@section('page','Store')
 @section('content')
 <div class="content-wrapper">
     <div class="content-header row">
@@ -17,7 +17,7 @@
     <div class="content-body">
         <div class="card">
             <div class="card-header">
-                <h4 id="basic-forms" class="card-title">User List</h4>
+                <h4 id="basic-forms" class="card-title">Store List</h4>
                 <div class="heading-elements">
                     <ul class="list-inline mb-0">
                         <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
@@ -34,29 +34,33 @@
                             @endif
                         </div>
                     </div>
-                    <a href="{{route('backoffice.user_create')}}" class="btn btn-success mb-2">Add</a>
+                    <a href="{{route('backoffice.store_create')}}" class="btn btn-success mb-2">Add</a>
                     <table class="table" id="table-backend">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Email</th>
-                                <th>Username</th>
                                 <th>Name</th>
-                                <th>Role</th>
+                                <th>User</th>
+                                <th>Description</th>
+                                <th>Province</th>
+                                <th>City</th>
+                                <th>Address</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $row)
+                            @foreach ($stores as $key=>$row)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$row->email}}</td>
-                                    <td>{{$row->username}}</td>
-                                    <td>{{$row->name}}</td>
-                                    <td>{{$row->user_type->name}}</td>
+                                    <td><p class="tag tag-success">{{$row->name}}</p></td>
+                                    <td>{{$row->user->name}}</td>
+                                    <td>{!!str_limit($row->store_description,'150','...')!!}</td>
+                                    <td>{{$row->province_name}}</td>
+                                    <td>{{$row->districts_name}}</td>
+                                    <td>{{$row->address}}</td>
                                     <td>
-                                            <a href="{{route('backoffice.user_show',$row->id)}}" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="{{route('backoffice.user_delete',$row->id)}}" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="{{route('backoffice.store_edit',$row->id)}}" class="btn btn-warning"><i class="icon-edit2"></i></a>
+                                        <a href="{{route('backoffice.store_delete',$row->id)}}" class="btn btn-danger"><i class="icon-trash2"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -64,10 +68,12 @@
                         <tfoot>
                             <tr>
                                 <th>#</th>
-                                <th>Email</th>
-                                <th>Username</th>
                                 <th>Name</th>
-                                <th>Role</th>
+                                <th>User</th>
+                                <th>Description</th>
+                                <th>Province</th>
+                                <th>City</th>
+                                <th>Address</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>
@@ -77,5 +83,4 @@
         </div>
     </div>
 </div>
-
 @endsection

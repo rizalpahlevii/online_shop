@@ -14,6 +14,7 @@ Route::group(['namespace' => 'Frontend'], function () use ($router) {
     $router->post('/password/update', 'MainController@updatePassword')->name('fe.updatePassword');
 });
 Route::group(['prefix' => 'ajax'], function () use ($router) {
+    $router->post('/checkout', 'Frontend\MainController@postCheckout')->name('checkout');
     $router->post('/delete-cart', 'Frontend\MainController@deleteCart')->name('delete_cart');
     $router->post('/cek-auth', 'Frontend\MainController@cekAuth')->name('cek_auth');
     $router->post('/get-city', 'Frontend\MainController@getCityByProvinceId')->name('getCityProvince');
@@ -21,9 +22,11 @@ Route::group(['prefix' => 'ajax'], function () use ($router) {
     $router->post('/add-to-cart', 'Frontend\MainController@addToCart')->name('add_to_cart');
     $router->post('/search-min-max', 'Frontend\MainController@searchMinMax')->name('searchminmax');
     $router->post('/cek-ongkir', 'Frontend\MainController@cekOngkir')->name('cek_ongkir');
-    $router->post('/checkout', 'Frontend\MainController@postCheckout')->name('checkout');
 });
+
+
 Auth::routes();
+
 Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']], function () use ($router) {
     $router->get('/', 'BackOffice\MainController@dashboard')->name('backoffice.dashboard');
     $router->group(['prefix' => 'user'], function () use ($router) {
@@ -52,6 +55,14 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']],
     $router->group(['prefix' => 'courier'], function () use ($router) {
         $router->get('/', 'BackOffice\MainController@getCourier')->name('backoffice.courier');
         $router->post('/update', 'BackOffice\MainController@postCourierUpdate')->name('backoffice.courier_update');
+    });
+    $router->group(['prefix' => 'store'], function () use ($router) {
+        $router->get('/', 'BackOffice\StoreController@index')->name('backoffice.store');
+        $router->get('/edit/{id}', 'BackOffice\StoreController@edit')->name('backoffice.store_edit');
+        $router->get('/delete/{id}', 'BackOffice\StoreController@delete')->name('backoffice.store_delete');
+        $router->get('/create', 'BackOffice\StoreController@create')->name('backoffice.store_create');
+        $router->post('/store', 'BackOffice\StoreController@store')->name('backoffice.store_store');
+        $router->post('/update', 'BackOffice\StoreController@update')->name('backoffice.store_update');
     });
 });
 

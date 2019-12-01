@@ -7,6 +7,8 @@
     </li>
     <li class="{{set_active(['backoffice.courier'])}}"><a href="{{route('backoffice.courier')}}"><i class="icon-tags"></i><span data-i18n="" class="menu-title">Courier</span></a>
     </li>
+    <li class="{{set_active(['backoffice.store','backoffice.store_create','backoffice.store_edit'])}}"><a href="{{route('backoffice.store')}}"><i class="icon-shop2"></i><span data-i18n="" class="menu-title">Store</span></a>
+    </li>
   
     
   </ul>
