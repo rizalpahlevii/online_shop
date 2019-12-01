@@ -38,7 +38,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('backend')}}/css/core/menu/menu-types/vertical-overlay-menu.css">
     <!-- END Page Level CSS-->
     <!-- BEGIN Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('backend')}}/style.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('backend')}}/assets/css/style.css">
     <!-- END Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{url('assets')}}/DataTables/DataTables-1.10.20/css/dataTables.bootstrap4.css">
     <script src="{{url('assets')}}/ckeditor5/ckeditor.js"></script>

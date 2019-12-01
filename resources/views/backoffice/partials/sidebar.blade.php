@@ -9,6 +9,8 @@
     </li>
     <li class="{{set_active(['backoffice.store','backoffice.store_create','backoffice.store_edit'])}}"><a href="{{route('backoffice.store')}}"><i class="icon-shop2"></i><span data-i18n="" class="menu-title">Store</span></a>
     </li>
+    <li class="{{set_active(['backoffice.blog','backoffice.blog_create','backoffice.blog_edit'])}}"><a href="{{route('backoffice.blog')}}"><i class="icon-info-circle"></i><span data-i18n="" class="menu-title">Post</span></a>
+    </li>
   
     
   </ul>

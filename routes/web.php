@@ -12,6 +12,8 @@ Route::group(['namespace' => 'Frontend'], function () use ($router) {
     $router->post('/profile/update', 'MainController@profileUpdate')->name('fe.profileUpdate');
     $router->get('/change-password', 'MainController@changePassword')->name('fe.changePassword');
     $router->post('/password/update', 'MainController@updatePassword')->name('fe.updatePassword');
+    $router->get('/blog', 'MainController@getBlog')->name('fe.blog');
+    $router->get('/blog/{slug}', 'MainController@getBlogView')->name('fe.blog_view');
 });
 Route::group(['prefix' => 'ajax'], function () use ($router) {
     $router->post('/checkout', 'Frontend\MainController@postCheckout')->name('checkout');
@@ -63,6 +65,14 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']],
         $router->get('/create', 'BackOffice\StoreController@create')->name('backoffice.store_create');
         $router->post('/store', 'BackOffice\StoreController@store')->name('backoffice.store_store');
         $router->post('/update', 'BackOffice\StoreController@update')->name('backoffice.store_update');
+    });
+    $router->group(['prefix' => 'blog'], function () use ($router) {
+        $router->get('/', 'BackOffice\BlogController@index')->name('backoffice.blog');
+        $router->get('/edit/{id}', 'BackOffice\BlogController@edit')->name('backoffice.blog_edit');
+        $router->get('/delete/{id}', 'BackOffice\BlogController@delete')->name('backoffice.blog_delete');
+        $router->get('/create', 'BackOffice\BlogController@create')->name('backoffice.blog_create');
+        $router->post('/store', 'BackOffice\BlogController@store')->name('backoffice.blog_store');
+        $router->post('/update', 'BackOffice\BlogController@update')->name('backoffice.blog_update');
     });
 });
 

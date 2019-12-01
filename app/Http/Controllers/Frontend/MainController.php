@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use Api;
+use App\Blog;
 use App\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -382,5 +383,16 @@ class MainController extends Controller
             </div>');
         }
         return redirect()->route('fe.changePassword');
+    }
+    public function getBlog()
+    {
+        $blogs = Blog::with('user')->paginate(10);
+        $countBlog = $blogs->count();
+        return view($this->frontend . 'blog', compact('blogs', 'countBlog'));
+    }
+    public function getBlogView($slug)
+    {
+        $blog = Blog::with('user')->where('slug', $slug)->first();
+        return view($this->frontend . 'blog_view', compact('blog'));
     }
 }
