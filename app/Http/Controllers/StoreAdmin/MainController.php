@@ -4,7 +4,9 @@ namespace App\Http\Controllers\StoreAdmin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Product;
 use App\Store;
+use App\Transaction;
 use Auth;
 use Illuminate\Support\Facades\Auth as IlluminateAuth;
 use Illuminate\Support\Facades\View;
@@ -27,6 +29,12 @@ class MainController extends Controller
     }
     public function dashboard()
     {
-        return view($this->path . 'dashboard');
+        $product = Product::where('store_id', $this->store->id)->get();
+        $transaction = Transaction::where('store_id', $this->store->id)->get();
+        $count = [
+            'product' => $product->count(),
+            'transaction' => $transaction->count()
+        ];
+        return view($this->path . 'dashboard', compact('count'));
     }
 }

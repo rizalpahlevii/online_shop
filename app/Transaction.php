@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
 {
-    protected $fillable = ['transaction_number','store_id','member_id','courier_id','date','transaction_status','total_amount','note','receipt_number'];
+    protected $fillable = ['transaction_number', 'store_id', 'member_id', 'courier_id', 'date', 'transaction_status', 'total_amount', 'note', 'receipt_number'];
     public function store()
     {
         return $this->belongsTo(Store::class, 'store_id');
@@ -30,5 +31,9 @@ class Transaction extends Model
     public function transactionDetail()
     {
         return $this->hasMany(Transaction_detail::class, 'transaction_id', 'id');
+    }
+    public function transactionCourier()
+    {
+        return $this->hasOne(Transaction_courier::class, 'transaction_id', 'id');
     }
 }

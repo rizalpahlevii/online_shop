@@ -125,4 +125,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], func
         $router->post('/paymentStatus', 'StoreAdmin\TransactionController@changePaymentStatus')->name('admin.transaction_ajxpayment');
         $router->post('/transactionStatus', 'StoreAdmin\TransactionController@changeTransactionStatus')->name('admin.transaction_ajxtransaction');
     });
+
+    $router->group(['prefix' => 'report'], function () use ($router) {
+        $router->get('/transaction', 'StoreAdmin\ReportController@transaction')->name('admin.report_transaction');
+    });
 });

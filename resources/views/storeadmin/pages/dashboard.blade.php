@@ -11,8 +11,8 @@
                         <div class="card-block">
                             <div class="media">
                                 <div class="media-body text-xs-left">
-                                    <h3 class="pink">278</h3>
-                                    <span>New Projects</span>
+                                    <h3 class="pink">{{$count['product']}}</h3>
+                                    <span>Product</span>
                                 </div>
                                 <div class="media-right media-middle">
                                     <i class="icon-bag2 pink font-large-2 float-xs-right"></i>
@@ -28,8 +28,8 @@
                         <div class="card-block">
                             <div class="media">
                                 <div class="media-body text-xs-left">
-                                    <h3 class="teal">156</h3>
-                                    <span>New Clients</span>
+                                    <h3 class="teal">{{$count['transaction']}}</h3>
+                                    <span>Transaction</span>
                                 </div>
                                 <div class="media-right media-middle">
                                     <i class="icon-user1 teal font-large-2 float-xs-right"></i>
