@@ -40,74 +40,32 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label for="payment_status">Payment Status</label>
-                                            <select name="payment_status" id="payment_status" class="form-control">
-                                                <option value="all" @if(isset($_GET['payment_status']))
-                                                    @if ($_GET['payment_status'] == "all")
-                                                        {{'selected'}}
-                                                    @endif
-                                                @endif>All</option>
-
-                                                <option value="paid" @if(isset($_GET['payment_status']))
-                                                @if ($_GET['payment_status'] == "paid")
-                                                    {{'selected'}}
-                                                @endif
-                                            @endif>Paid</option>
-
-                                                <option value="unpaid" @if(isset($_GET['payment_status']))
-                                                @if ($_GET['payment_status'] == "unpaid")
-                                                    {{'selected'}}
-                                                @endif
-                                            @endif>Unpaid</option>
-
-                                                <option value="rejected" @if(isset($_GET['payment_status']))
-                                                @if ($_GET['payment_status'] == "rejected")
-                                                    {{'selected'}}
-                                                @endif
-                                            @endif>Rejected</option>
-                                            
-                                                <option value="waiting_confirmation" @if(isset($_GET['payment_status']))
-                                                @if ($_GET['payment_status'] == "waiting_confirmation")
-                                                    {{'selected'}}
-                                                @endif
-                                            @endif>Waiting Confirmation</option>
+                                            <label for="month">Month</label>
+                                            <select name="month" id="month" class="form-control">
+                                                <option disabled selected>-- Choose Month --</option>
+                                                <option value="1" <?=($_GET['month'] == 1) ? 'selected':'';?>>January</option>
+                                                <option value="2"<?=($_GET['month'] == 2) ? 'selected':'';?>>February</option>
+                                                <option value="3"<?=($_GET['month'] == 3) ? 'selected':'';?>>March</option>
+                                                <option value="4"<?=($_GET['month'] == 4) ? 'selected':'';?>>April</option>
+                                                <option value="5"<?=($_GET['month'] == 5) ? 'selected':'';?>>May</option>
+                                                <option value="6"<?=($_GET['month'] == 6) ? 'selected':'';?>>June</option>
+                                                <option value="7"<?=($_GET['month'] == 7) ? 'selected':'';?>>July</option>
+                                                <option value="8"<?=($_GET['month'] == 8) ? 'selected':'';?>>August</option>
+                                                <option value="9"<?=($_GET['month'] == 9) ? 'selected':'';?>>September</option>
+                                                <option value="10"<?=($_GET['month'] == 10) ? 'selected':'';?>>October</option>
+                                                <option value="11"<?=($_GET['month'] == 11) ? 'selected':'';?>>November</option>
+                                                <option value="12"<?=($_GET['month'] == 12) ? 'selected':'';?>>December</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label for="transaction_status">Order Status</label>
-                                            <select name="transaction_status" id="transaction_status" class="form-control">
-                                                <option value="all" @if(isset($_GET['transaction_status']))
-                                                @if ($_GET['transaction_status'] == "all")
-                                                    {{'selected'}}
-                                                @endif
-                                            @endif>All</option>
-
-                                                <option value="proccess" @if(isset($_GET['transaction_status']))
-                                                @if ($_GET['transaction_status'] == "proccess")
-                                                    {{'selected'}}
-                                                @endif
-                                            @endif>Proccess</option>
-
-                                                <option value="shipped" @if(isset($_GET['transaction_status']))
-                                                @if ($_GET['transaction_status'] == "shipped")
-                                                    {{'selected'}}
-                                                @endif
-                                            @endif>Shipped</option>
-
-                                                <option value="in_shipping" @if(isset($_GET['transaction_status']))
-                                                @if ($_GET['transaction_status'] == "in_shipping")
-                                                    {{'selected'}}
-                                                @endif
-                                            @endif>In Shipping</option>
-
-                                                <option value="arrived" @if(isset($_GET['transaction_status']))
-                                                @if ($_GET['transaction_status'] == "arrived")
-                                                    {{'selected'}}
-                                                @endif
-                                            @endif>Arrived</option>
-
+                                            <label for="year">Year</label>
+                                            <select name="year" id="year" class="form-control">
+                                                <option disabled selected>-- Choose Year --</option>
+                                                @foreach ($years as $year)
+                                                    <option value="{{$year->year}}" <?= ($_GET['year'] == $year->year) ? 'selected' : '';?>>{{$year->year}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -127,14 +85,18 @@
                                                 <th>Number</th>
                                                 <th>Order Date</th>
                                                 <th>Member</th>
+                                                <th>Sub Item</th>
+                                                <th>Ongkir</th>
                                                 <th>Total Amount</th>
-                                                <th>Payment Status</th>
-                                                <th>Order Status</th>
                                                 <th>Courier</th>
-                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @php
+                                                $finalTotal = 0;
+                                                $finalSubItem = 0;
+                                                $finalOngkir = 0;
+                                            @endphp
                                             @foreach($reports as $row)
                                                 <tr id="rowTr" data-kode="{{$row->id}}">
                                                     <td>{{$loop->iteration}}</td>
@@ -147,19 +109,43 @@
                                                             <b>{{$row->member->phone}}</b>
                                                         </small>
                                                     </td>
-                                                    <td>{{$row->total_amount+$row->transactionCourier->value}}</td>
-                                                    <td>
-                                                        {!!payment_label($row->invoice->payment_status,$row->id)!!}<br>
-                                                       
-                                                    </td>
-                                                    <td>
-                                                        {!!transaction_label($row->transaction_status,$row->id)!!}<br>
-                                                        
-                                                    </td>
+                                                    @php
+                                                        $subItem = 0;
+                                                        foreach($row->transactionDetail as $rowD){
+                                                            $subItem += $rowD->price * $rowD->quantity;
+                                                        }
+                                                    @endphp
+                                                    <td>{{number_format($subItem)}}</td>
+                                                    
+                                                    <td>{{number_format($row->transactionCourier->value)}}</td>
+                                                    <td>{{number_format($row->transactionCourier->value+$subItem)}}</td>
                                                     <td>{{$row->transactionCourier->courier}}</td>
                                                 </tr>
+                                                @php
+                                                    $finalSubItem +=$subItem;
+                                                    $finalOngkir += $row->transactionCourier->value;
+                                                    $finalTotal += $row->transactionCourier->value+$subItem;
+                                                @endphp
                                             @endforeach
                                         </tbody>
+                                        @if ($reports)
+                                            
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="6" align="right"><b>Total Product :</b></td>
+                                                    <td colspan="2"><b>{{number_format($finalSubItem)}}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6" align="right"><b>Total Price Shipment :</b></td>
+                                                    <td colspan="2"><b>{{number_format($finalOngkir)}}</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6" align="right"><b>Total :</b></td>
+                                                    <td colspan="2"><b>{{number_format($finalTotal)}}</b></td>
+                                                </tr>
+                                            </tfoot>
+                                        @endif
+
                                     </table>
                         </div>
                     </div>

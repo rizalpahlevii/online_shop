@@ -16,7 +16,6 @@
     <link rel="apple-touch-icon" sizes="120x120" href="{{asset('backend')}}/images/ico/apple-icon-120.png">
     <link rel="apple-touch-icon" sizes="152x152" href="{{asset('backend')}}/images/ico/apple-icon-152.png">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('backend')}}/images/ico/icon.ico">
-    <link rel="shortcut icon" type="image/png" href="{{asset('backend')}}/images/ico/favicon-32.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">

@@ -42,13 +42,15 @@ class ReportController extends Controller
     }
     public function transaction()
     {
-        $reports = Transaction::with('invoice', 'transactionAddress', 'transactionDetail.product.category', 'transactionCourier', 'store', 'member', 'courier')->where('store_id', $this->store->id)->get();
+        $years = Transaction::select(DB::raw('YEAR(date) as year'))->where('store_id', $this->store->id)->distinct()->get();
+        $reports = Transaction::with('invoice', 'transactionAddress', 'transactionDetail.product.category', 'transactionCourier', 'store', 'member', 'courier')->where('store_id', $this->store->id);
         if (Input::get('month')) {
-            $reports->whereMonth(Input::get('search'));
+            $reports->whereMonth('date', Input::get('month'));
         }
         if (Input::get('year')) {
-            $reports->whereYear(Input::get('search'));
+            $reports->whereYear('date', Input::get('year'));
         }
-        return view($this->path . 'report.transaction', compact('reports'));
+        $reports = $reports->get();
+        return view($this->path . 'report.transaction', compact('reports', 'years'));
     }
 }
