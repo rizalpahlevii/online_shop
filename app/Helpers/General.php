@@ -89,3 +89,35 @@ if (!function_exists('transaction_label')) {
         return $ret;
     }
 }
+
+if (!function_exists('set_selected_month')) {
+    function set_selected_month($value)
+    {
+        if (!empty($_GET['month'])) {
+            if ($_GET['month'] == $value) {
+                $status = 'selected';
+            } else {
+                $status = '';
+            }
+        } else {
+            $status = '';
+        }
+        return $status;
+    }
+}
+
+if (!function_exists('set_selected_year')) {
+    function set_selected_year($value)
+    {
+        if (!empty($_GET['year'])) {
+            if ($_GET['year'] == $value) {
+                $status = 'selected';
+            } else {
+                $status = '';
+            }
+        } else {
+            $status = '';
+        }
+        return $status;
+    }
+}

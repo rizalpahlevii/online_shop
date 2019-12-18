@@ -53,4 +53,9 @@ class ReportController extends Controller
         $reports = $reports->get();
         return view($this->path . 'report.transaction', compact('reports', 'years'));
     }
+    public function shipment()
+    {
+        $reports = Transaction::with('transactionAddress', 'transactionCourier', 'member')->where('store_id', $this->store->id)->get();
+        return view($this->path . 'report.shipment', compact('reports'));
+    }
 }

@@ -43,18 +43,18 @@
                                             <label for="month">Month</label>
                                             <select name="month" id="month" class="form-control">
                                                 <option disabled selected>-- Choose Month --</option>
-                                                <option value="1" <?=($_GET['month'] == 1) ? 'selected':'';?>>January</option>
-                                                <option value="2"<?=($_GET['month'] == 2) ? 'selected':'';?>>February</option>
-                                                <option value="3"<?=($_GET['month'] == 3) ? 'selected':'';?>>March</option>
-                                                <option value="4"<?=($_GET['month'] == 4) ? 'selected':'';?>>April</option>
-                                                <option value="5"<?=($_GET['month'] == 5) ? 'selected':'';?>>May</option>
-                                                <option value="6"<?=($_GET['month'] == 6) ? 'selected':'';?>>June</option>
-                                                <option value="7"<?=($_GET['month'] == 7) ? 'selected':'';?>>July</option>
-                                                <option value="8"<?=($_GET['month'] == 8) ? 'selected':'';?>>August</option>
-                                                <option value="9"<?=($_GET['month'] == 9) ? 'selected':'';?>>September</option>
-                                                <option value="10"<?=($_GET['month'] == 10) ? 'selected':'';?>>October</option>
-                                                <option value="11"<?=($_GET['month'] == 11) ? 'selected':'';?>>November</option>
-                                                <option value="12"<?=($_GET['month'] == 12) ? 'selected':'';?>>December</option>
+                                                <option value="1" <?php echo set_selected_month(1); ?>>January</option>
+                                                <option value="2" <?php echo set_selected_month(2); ?>>February</option>
+                                                <option value="3"  <?php echo set_selected_month(3); ?>>March</option>
+                                                <option value="4" <?php echo set_selected_month(4); ?>>April</option>
+                                                <option value="5" <?php echo set_selected_month(5); ?>>May</option>
+                                                <option value="6" <?php echo set_selected_month(6); ?>>June</option>
+                                                <option value="7" <?php echo set_selected_month(7); ?>>July</option>
+                                                <option value="8" <?php echo set_selected_month(8); ?>>August</option>
+                                                <option value="9" <?php echo set_selected_month(9); ?>>September</option>
+                                                <option value="10" <?php echo set_selected_month(10); ?>>October</option>
+                                                <option value="11" <?php echo set_selected_month(11); ?>>November</option>
+                                                <option value="12" <?php echo set_selected_month(12); ?>>December</option>
                                             </select>
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                             <select name="year" id="year" class="form-control">
                                                 <option disabled selected>-- Choose Year --</option>
                                                 @foreach ($years as $year)
-                                                    <option value="{{$year->year}}" <?= ($_GET['year'] == $year->year) ? 'selected' : '';?>>{{$year->year}}</option>
+                                                    <option value="{{$year->year}}" <?php echo set_selected_year($year->year); ?>>{{$year->year}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

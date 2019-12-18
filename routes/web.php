@@ -1,7 +1,7 @@
 <?php
 
 
-Route::group(['namespace' => 'Frontend'], function () use ($router) {
+Route::group(['namespace' => 'Frontend', 'middleware' => 'frontend'], function () use ($router) {
     $router->get('/', 'MainController@index')->name('fe.landing');
     $router->get('/product/{slug}', 'MainController@detail')->name('fe.product_detail');
     $router->get('/category/{slug}', 'MainController@viewCategoryProduct')->name('fe.cat_product');
@@ -37,7 +37,7 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']],
         $router->post('/store', 'BackOffice\UserController@store')->name('backoffice.user_store');
         $router->get('/edit/{id}', 'BackOffice\UserController@show')->name('backoffice.user_show');
         $router->put('/update/{id}', 'BackOffice\UserController@update')->name('backoffice.user_update');
-        $router->get('/delete/{id}', 'BackOffice\UserController@delete')->name('backoffice.user_delete');
+        $router->get('/delete/{id}', 'BackOffice\UserController@destroy')->name('backoffice.user_delete');
     });
     $router->group(['prefix' => 'pcategory'], function () use ($router) {
         $router->get('/', 'BackOffice\Product_categoryController@index')->name('backoffice.pcategory_index');
@@ -128,5 +128,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], func
 
     $router->group(['prefix' => 'report'], function () use ($router) {
         $router->get('/transaction', 'StoreAdmin\ReportController@transaction')->name('admin.report_transaction');
+        $router->get('/shipment', 'StoreAdmin\ReportController@shipment')->name('admin.report_shipment');
     });
 });

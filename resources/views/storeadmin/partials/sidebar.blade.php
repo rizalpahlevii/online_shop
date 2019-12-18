@@ -20,6 +20,8 @@
       <ul class="menu-content">
         <li class="{{set_active(['admin.report_transaction'])}}"><a href="{{route('admin.report_transaction')}}" data-i18n="nav.google_charts.google_bar_charts" class="menu-item">Transaction</a>
         </li>
+        <li class="{{set_active(['admin.report_shipment'])}}"><a href="{{route('admin.report_shipment')}}" data-i18n="nav.google_charts.google_bar_charts" class="menu-item">Shipment</a>
+        </li>
         
       </ul>
     </li>
