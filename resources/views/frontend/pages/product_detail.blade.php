@@ -1,6 +1,7 @@
 @extends('frontend.layout.template')
 @section('page',$product->name)
 @section('content')
+
     <section class="section-content">
         <div class="container mt-3 mb-3">
             <output>
@@ -48,6 +49,8 @@
                                     <dd class="col-sm-9">{{$store->province_name}}, {{$store->districts_name}}</dd> 
                                     <dt class="col-sm-3">Postal Code</dt>
                                     <dd class="col-sm-9">{{$store->postal_code}}</dd>
+                                    <dt class="col-sm-3">Stock</dt>
+                                    <dd class="col-sm-9">{{$product->stock}}</dd>
                                 </dl>
 
                                 <hr>
@@ -127,8 +130,10 @@
                             Swal.fire( 'Success!','Sukses menambahkan ke keranjang', 'success').then(function(){
                                 location.reload();
                             });
-                        }else{
+                        }else if(response == "error"){
                             Swal.fire('Error!', 'Product Berbeda Toko','error');
+                        }else{
+                            Swal.fire('Error!', 'Stock Kurang','error');
                         }
                     },
                     error:function(request,status,error){

@@ -44,7 +44,7 @@
                                         <a class="dropdown-item" href="{{route('fe.myprofile')}}">My Profile</a>
                                         <a class="dropdown-item" href="{{route('fe.changePassword')}}">Change Password</a>
                                         <a class="dropdown-item" href="<?= ($cartQuantity == 0) ? '#' : route('fe.myorder'); ?>">My Cart</a>
-                                        <a class="dropdown-item" href="#">Invoice</a>
+                                        <a class="dropdown-item" href="{{route('fe.invoice')}}">Invoice</a>
                                         <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">Logout</a>
                                     </div>

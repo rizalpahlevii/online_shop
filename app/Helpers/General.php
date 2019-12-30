@@ -121,3 +121,50 @@ if (!function_exists('set_selected_year')) {
         return $status;
     }
 }
+if (!function_exists('show_status_transaction')) {
+    function show_status_transaction($transaction_status)
+    {
+        $status = [
+            [
+                'id' => 1,
+                'status' => 'proccess',
+                'show' => 'Proccess',
+                'icon' => 'fa fa-check'
+            ],
+            [
+                'id' => 2,
+                'status' => 'shipped',
+                'show' => 'Shipped',
+                'icon' => 'fa fa-user'
+            ],
+            [
+                'id' => 3,
+                'status' => 'in_shipping',
+                'show' => 'In Shipping',
+                'icon' => 'fa fa-truck'
+            ],
+            [
+                'id' => 4,
+                'status' => 'arrived',
+                'show' => 'Arrived',
+                'icon' => 'fa fa-box'
+            ]
+        ];
+        $search = array_search($transaction_status, array_column($status, 'status'));
+        $html = '';
+        foreach ($status as $key => $row) {
+            if ($search >= $key) {
+                $html .= '<div class="step active">
+                            <span class="icon"> <i class="' . $row['icon'] . '"></i> </span>
+                            <span class="text">' . $row['show'] . '</span>
+                        </div>';
+            } else {
+                $html .= '<div class="step">
+                            <span class="icon"> <i class="' . $row['icon'] . '"></i> </span>
+                            <span class="text">' . $row['show'] . '</span>
+                        </div>';
+            }
+        }
+        return $html;
+    }
+}

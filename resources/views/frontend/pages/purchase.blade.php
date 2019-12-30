@@ -456,15 +456,18 @@
                     $.ajax({
                         url : "{{route('checkout')}}",
                         method : "POST",
+                        dataType : "json",
                         data : {
                             address : JSON.stringify(address),
                             courier : JSON.stringify(courier),
                         },
                         success:function(response){
                             Swal.close();
-                            if(response = 'sukses'){
+                            console.log(response);
+                            if(response[0] = 'sukses'){
                                 Swal.fire( 'Success!','Transaksi Sukses', 'success').then(function(){
-                                    location.reload();
+                                    // location.href = "{{route('fe.invoice_view',"+ response[1] +")}}";
+                                    location.href = "{{url('/invoice/')}}"+"/"+response[1] + "/view";
                                 });
                             }else{
                                 Swal.fire( 'Success!','Transaksi Sukses', 'error').then(function(){

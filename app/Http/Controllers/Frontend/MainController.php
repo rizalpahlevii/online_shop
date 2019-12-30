@@ -7,6 +7,7 @@ use App\Blog;
 use App\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Invoice;
 use App\Mail\NotificationChangePassword;
 use App\Product;
 use App\Product_category;
@@ -55,7 +56,7 @@ class MainController extends Controller
     }
     public function index()
     {
-        $products = Product::with('category')->where('stock', '>', '0');
+        $products = Product::with('category')->where('stock', '>', 0);
         if (Input::get('search')) {
             $products->where('name', 'like', '%' . Input::get('search') . '%');
         }
@@ -94,13 +95,17 @@ class MainController extends Controller
             return response()->json('error');
         } else {
             $product = Product::findOrfail($request->product_id);
-            $this->cart::add([
-                'id' => $request->product_id,
-                'name' => $product->name,
-                'price' => $product->selling_price,
-                'quantity' => $request->qty
-            ]);
-            return response()->json('success');
+            if ($product->stock < $request->qty) {
+                return response()->json('min');
+            } else {
+                $this->cart::add([
+                    'id' => $request->product_id,
+                    'name' => $product->name,
+                    'price' => $product->selling_price,
+                    'quantity' => $request->qty
+                ]);
+                return response()->json('success');
+            }
         }
     }
     protected function _getInfoProduct($product_id)
@@ -236,6 +241,7 @@ class MainController extends Controller
         DB::beginTransaction();
         $DbCourier = Courier::where('code', $address['courier_code'])->first();
         try {
+
             $transaction = Transaction::create([
                 'transaction_number' => 'INV' . date('YmdHis'),
                 'store_id' => $store_id[0],
@@ -243,6 +249,7 @@ class MainController extends Controller
                 'courier_id' => $DbCourier->id,
                 'date' => Carbon::now(),
                 'transaction_status' => 'proccess',
+                'note' => $address['detail'],
                 'total_amount' => $total_amount,
             ]);
 
@@ -279,9 +286,18 @@ class MainController extends Controller
             $transaction_courier->etd = $courier['etd'];
             $transaction_courier->value = $courier['value'];
             $transaction_courier->save();
+
+            $transaction_invoice = new Invoice();
+            $transaction_invoice->transaction_id = $transaction->id;
+            $transaction_invoice->payment_method = 'Bank';
+            $transaction_invoice->total_amount = $total_amount;
+            $transaction_invoice->expired = Carbon::now()->addDay();
+            $transaction_invoice->save();
+
+
             DB::commit();
             \Cart::clear();
-            $status = 'success';
+            $status = ['success', $transaction->id];
         } catch (\Exception $e) {
             DB::rollBack();
             $status = 'error';
@@ -394,5 +410,19 @@ class MainController extends Controller
     {
         $blog = Blog::with('user')->where('slug', $slug)->first();
         return view($this->frontend . 'blog_view', compact('blog'));
+    }
+    public function invoice()
+    {
+        $invoice = Transaction::with('invoice', 'transactionAddress', 'transactionDetail.product.category', 'store', 'member', 'courier')->where('member_id', Auth::id())->get();
+        return view($this->frontend . 'invoice', compact('invoice'));
+    }
+    public function invoiceView($id)
+    {
+        $invoice = Transaction::with('invoice', 'transactionAddress', 'transactionCourier', 'transactionDetail.product.category', 'store', 'member', 'courier')->where('member_id', Auth::id())->where('id', $id)->firstOrFail();
+        $owner = User::find($invoice->store->user_id);
+        return view($this->frontend . 'invoiceView', compact('invoice', 'owner'));
+    }
+    public function uploadPaymentProof($id)
+    {
     }
 }
