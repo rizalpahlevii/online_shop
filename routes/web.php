@@ -9,6 +9,7 @@ Route::group(['namespace' => 'Frontend', 'middleware' => 'frontend'], function (
     $router->get('/myorder/checkout', 'MainController@purchase')->name('fe.checkout');
     $router->get('/invoice', 'MainController@invoice')->name('fe.invoice');
     $router->get('/invoice/{id}/view', 'MainController@invoiceView')->name('fe.invoice_view');
+    $router->get('/invoice/{id}/detail', 'MainController@invoiceDetail')->name('fe.invoice_detail');
     $router->get('/profile', 'MainController@profile')->name('fe.myprofile');
     $router->get('/profile/edit', 'MainController@profileEdit')->name('fe.profile_edit');
     $router->post('/profile/update', 'MainController@profileUpdate')->name('fe.profileUpdate');

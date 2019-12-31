@@ -56,7 +56,7 @@ class MainController extends Controller
     }
     public function index()
     {
-        $products = Product::with('category')->where('stock', '>', 0);
+        $products = Product::with('category');
         if (Input::get('search')) {
             $products->where('name', 'like', '%' . Input::get('search') . '%');
         }
@@ -65,9 +65,6 @@ class MainController extends Controller
     }
     public function viewCategoryProduct($slug)
     {
-        // $products = Product_category::whereHas('product', function ($qw) {
-        //     $qw->where('name', 'like', '%' . Input::get('search') . '%');
-        // })->where('slug', '=', $slug)->first();
         if (Input::get('search')) {
             $get = Input::get('search');
             $products = Product_category::with(['product' => function ($q) use ($get) {
@@ -265,9 +262,9 @@ class MainController extends Controller
             }
             $transaction_address->save();
 
-            $transaction_detail = new Transaction_detail();
             foreach (\Cart::getContent() as $rdt) {
-                $product = Product::find($row->id);
+                $transaction_detail = new Transaction_detail();
+                $product = Product::find($rdt->id);
                 $transaction_detail->transaction_id = $transaction->id;
                 $transaction_detail->product_id = $rdt->id;
                 $transaction_detail->price = $product->selling_price;
@@ -424,5 +421,11 @@ class MainController extends Controller
     }
     public function uploadPaymentProof($id)
     {
+    }
+    public function invoiceDetail($id)
+    {
+        $invoice = Transaction::with('invoice', 'transactionAddress', 'transactionCourier', 'transactionDetail.product.category', 'store', 'member', 'courier')->where('member_id', Auth::id())->where('id', $id)->firstOrFail();
+        $owner = User::find($invoice->store->user_id);
+        return view($this->frontend . 'invoiceDetail', compact('invoice', 'owner'));
     }
 }

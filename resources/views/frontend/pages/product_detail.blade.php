@@ -37,7 +37,7 @@
                                     <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> 154 orders </small>
                                 </div> --}}
                                 <div class="mb-3">
-                                    <var class="price h4">Rp. {{number_format($product->selling_price)}}</var>
+                                    <var class="price h4">{{rupiah($product->selling_price)}}</var>
                                 </div>
                                 <p>{!!$product->description!!}</p>
                                 <dl class="row">

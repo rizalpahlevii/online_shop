@@ -67,10 +67,10 @@
                                     </tbody>
                                 </table>
             
-                                <div class="card-body border-top">
+                                {{-- <div class="card-body border-top">
                                     <a href="#" class="btn btn-primary float-md-right" id="make-purchase"> Make Purchase <i class="fa fa-chevron-right"></i> </a>
                                     <a href="{{route('fe.landing')}}" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
-                                </div>	
+                                </div>	 --}}
                             </div> <!-- card.// -->
                         </main>
             </div>

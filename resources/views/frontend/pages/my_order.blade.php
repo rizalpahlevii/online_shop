@@ -8,39 +8,6 @@
     </section>
     <section class="section-content padding-y">
         <div class="container">
-            {{-- <div class="row mb-2">
-                <main class="col-md-12">
-                    <div class="card">
-                        <h6 class="ml-3 mt-2">Detail Member</h6>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="member_name">Name</label>
-                                        <input type="text" name="member_name" id="member_name" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="member_email">Email</label>
-                                        <input type="text" name="member_email" id="member_email" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="member_telp">Telephone</label>
-                                        <input type="text" name="member_telp" id="member_telp" class="form-control">
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </main>
-            </div> --}}
             <div class="row">
                 <main class="col-md-9">
                     <div class="card">
@@ -77,7 +44,7 @@
                                     </td>
                                     <td> 
                                         <div class="price-wrap"> 
-                                            <var class="price">Rp. {{$product->selling_price}}</var> 
+                                            <var class="price">{{rupiah($product->selling_price)}}</var> 
                                         </div> <!-- price-wrap .// -->
                                     </td>
                                     <td>
@@ -86,7 +53,7 @@
                                             $subtotal = $row->quantity*$product->selling_price;
                                         @endphp
                                         <div class="price-wrap"> 
-                                            <var class="price">Rp. {{$subtotal}}</var> 
+                                            <var class="price">{{rupiah($subtotal)}}</var> 
                                         </div>
                                     </td>
                                     <td class="text-right"> 
@@ -104,10 +71,7 @@
                             <a href="#" class="btn btn-primary float-md-right" id="make-purchase"> Make Purchase <i class="fa fa-chevron-right"></i> </a>
                             <a href="{{route('fe.landing')}}" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
                         </div>	
-                    </div> <!-- card.// -->
-                    <div class="alert alert-success mt-3">
-                        <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
-                    </div>
+                    </div> 
                 </main> <!-- col.// -->
                 <aside class="col-md-3">
                     <div class="card mb-3">
@@ -129,7 +93,7 @@
                         <div class="card-body">
                                 <dl class="dlist-align">
                                 <dt>Total price:</dt>
-                                <dd class="text-right">Rp. {{$total}}</dd>
+                                <dd class="text-right">{{rupiah($total)}}</dd>
                                 </dl>
                                 {{-- <dl class="dlist-align">
                                 <dt>Discount:</dt>

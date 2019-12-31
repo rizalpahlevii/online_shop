@@ -168,3 +168,35 @@ if (!function_exists('show_status_transaction')) {
         return $html;
     }
 }
+if (!function_exists('show_status_fe')) {
+    function show_status_fe($status)
+    {
+        switch ($status) {
+            case 'unpaid':
+                $html = '<span class="badge badge-light">Unpaid</span>';
+                break;
+            case 'paid':
+                $html = '<span class="badge badge-success">Paid</span>';
+                break;
+            case 'waiting_confirmation':
+                $html = '<span class="badge badge-warning">Waiting Confirmation</span>';
+                break;
+            case 'rejected':
+                $html = '<span class="badge badge-danger">rejected</span>';
+                break;
+
+            default:
+                $html = '<span class="badge badge-dark">Default</span>';
+
+                break;
+        }
+        return $html;
+    }
+}
+if (!function_exists('rupiah')) {
+    function rupiah($angka)
+    {
+        $result = "Rp " . number_format($angka, 2, ',', '.');
+        return $result;
+    }
+}

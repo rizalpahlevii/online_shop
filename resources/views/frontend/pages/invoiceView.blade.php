@@ -53,17 +53,24 @@
                                              <tr>
                                                 <td>{{$loop->iteration}}</td>
                                                 <td>{{$itemProduct->product->name}}</td>
-                                                <td>{{number_format($itemProduct->product->selling_price)}}</td>
+                                                <td>{{rupiah($itemProduct->product->selling_price)}}</td>
                                                 <td>{{ $itemProduct->quantity}}</td>
-                                                <td>{{ number_format($itemProduct->total)}}</td>
+                                                <td>{{ rupiah($itemProduct->total)}}</td>
                                              </tr>
                                              @php
                                                  $total += $itemProduct->total;
                                              @endphp
                                          @endforeach
                                          <tr>
+                                            <td colspan="4" align="center"><b>Ongkir</b></td>
+                                            <td><b>{{rupiah($invoice->transactionCourier->value)}}</b></td>
+                                        </tr>
+                                        @php
+                                            $total+=$invoice->transactionCourier->value;
+                                        @endphp
+                                         <tr>
                                              <td colspan="4" align="center"><b>Total</b></td>
-                                             <td><b>{{number_format($total)}}</b></td>
+                                             <td><b>{{rupiah($total)}}</b></td>
                                          </tr>
                                      </table>
                                  </div>

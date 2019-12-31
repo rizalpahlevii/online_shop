@@ -18,7 +18,7 @@
 								<figcaption class="info-wrap">
 									<a href="#" class="title">{{$rowProduct->name}}</a>
 									
-									<div class="price mt-1">Rp. {{$rowProduct->selling_price}}</div> <!-- price-wrap.// -->
+									<div class="price mt-1">{{rupiah($rowProduct->selling_price)}}</div> <!-- price-wrap.// -->
 								</figcaption>
 							</div>
 						</div> <!-- col.// -->
