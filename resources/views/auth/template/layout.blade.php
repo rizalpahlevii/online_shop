@@ -7,7 +7,7 @@
 <meta http-equiv="cache-control" content="max-age=604800" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>Website title - bootstrap html template</title>
+<title>Login - Online Shop</title>
 
 <link href="{{asset('frontend')}}/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
@@ -53,30 +53,18 @@ $(document).ready(function() {
 		</a> <!-- brand-wrap.// -->
 	</div>
 	<div class="col-lg-6 col-sm-12">
-		<form action="#" class="search">
-			<div class="input-group w-100">
-			    <input type="text" class="form-control" placeholder="Search">
-			    <div class="input-group-append">
-			      <button class="btn btn-primary" type="submit">
-			        <i class="fa fa-search"></i>
-			      </button>
-			    </div>
-		    </div>
-		</form> <!-- search-wrap .end// -->
+		 <!-- search-wrap .end// -->
 	</div> <!-- col.// -->
 	<div class="col-lg-4 col-sm-6 col-12">
 		<div class="widgets-wrap float-md-right">
-			<div class="widget-header  mr-3">
-				<a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
-				<span class="badge badge-pill badge-danger notify">0</span>
-			</div>
+			
 			<div class="widget-header icontext">
 				<a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
 				<div class="text">
 					<span class="text-muted">Welcome!</span>
 					<div> 
-						<a href="#">Sign in</a> |  
-						<a href="#"> Register</a>
+						<a href="{{route('login')}}">Sign in</a> |  
+						<a href="{{route('register')}}"> Register</a>
 					</div>
 				</div>
 			</div>
@@ -92,49 +80,7 @@ $(document).ready(function() {
 
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-conten padding-y" style="min-height:84vh">
-
-<!-- ============================ COMPONENT LOGIN   ================================= -->
-	<div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
-      <div class="card-body">
-      <h4 class="card-title mb-4">Sign in</h4>
-      <form method="post" action="{{route('login')}}">
-        @csrf
-      	  {{-- <a href="#" class="btn btn-facebook btn-block mb-2"> <i class="fab fa-facebook-f"></i> &nbsp  Sign in with Facebook</a>
-      	  <a href="#" class="btn btn-google btn-block mb-4"> <i class="fab fa-google"></i> &nbsp  Sign in with Google</a> --}}
-          <div class="form-group">
-             <input name="email" class="form-control" placeholder="Username" type="text">
-             @error('email')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-          </div>
-          <div class="form-group">
-            <input name="password" class="form-control" placeholder="Password" type="password">
-            @error('password')
-                <span class="invalid-feedback" role="alert">
-                   <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-          </div>
-          
-          <div class="form-group">
-            @if (Route::has('password.request'))
-          	    <a href="#" class="float-right">Forgot password?</a> 
-                <label class="float-left custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input" checked=""> <div class="custom-control-label"> Remember </div> </label>
-            @endif
-          </div>
-          <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block"> Login  </button>
-          </div>  
-      </form>
-      </div>
-    </div>
-
-     <p class="text-center mt-4">Don't have account? <a href="#">Sign up</a></p>
-     <br><br>
-<!-- ============================ COMPONENT LOGIN  END.// ================================= -->
-
+    @yield('content')
 
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->

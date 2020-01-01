@@ -158,7 +158,7 @@
                                                         @if ($row->invoice->attachment == null)
                                                             <a href="#" class="btn btn-danger" style="margin-top:3px;"><i class="icon-ban"></i> No Payment Receipt</a>
                                                         @else
-                                                            <a href="" class="btn btn-warning" style="margin-top:3px;"><i class="icon-search-plus"></i> Payment Receipt</a>
+                                                            <a href="#" class="btn btn-warning viewAttachment" style="margin-top:3px;" data-url="{{asset('images')}}/attachments/{{$row->invoice->attachment}}"><i class="icon-search-plus"></i> Payment Receipt</a>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -195,7 +195,7 @@
                         '<option value="proccess">Proccess</option>' +
                         '<option value="shipped">Shipped</option>' +
                         '<option value="in_shipping">In Shipping</option>' +
-                        '<option value="waiting_confirmation">Waiting Confirmation</option>' +
+                        '<option value="arrived">Arrived</option>' +
                         '</select>',
                     focusConfirm:false,
                     showLoaderOnConfirm:true,
@@ -291,6 +291,12 @@
             }
         });
 
+        $(document).on('click','.viewAttachment',function(){
+            url = $(this).data('url');
+            Swal.fire({
+                imageUrl: url,
+            })
+        });
 
         $(document).on('click','#rowPaymentStatus',function(){
             var kode = $(this).data('kode');
@@ -300,7 +306,7 @@
 					'<option value="unpaid">Unpaid</option>' +
 					'<option value="paid">Paid</option>' +
 					'<option value="rejected">Rejected</option>' +
-					'<option value="arrived">Arrived</option>' +
+					'<option value="waiting_confirmation">Waiting Confirmation</option>' +
 					'</select>',
 				focusConfirm: false,
 				showLoaderOnConfirm: true,

@@ -29,7 +29,13 @@
                                         <td>{!!show_status_fe($row->invoice->payment_status)!!}</td>
                                         <td><a href="{{route('fe.invoice_detail',$row->id)}}" class="btn btn-success btn-sm">View Invoice</a></td>
                                         <td>{{$row->invoice->expired}}</td>
-                                        <td><a href="#" class="btn btn-primary btn-sm">View Attachment</a></td>
+                                        <td>
+                                            @if ($row->invoice->payment_status == "unpaid")
+                                                <a href="{{route('fe.invoice_upload',$row->id)}}" class="btn btn-primary btn-sm">Upload</a>
+                                            @else
+                                            <a href="#" class="btn btn-primary btn-sm viewAttachment" data-url="{{asset('images')}}/attachments/{{$row->invoice->attachment}}" >View Attachment</a>
+                                            @endif
+                                        </td>
                                    </tr>
                                @endforeach
                            </table>
@@ -40,4 +46,21 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $(document).on('click','.viewAttachment',function(){
+            url = $(this).data('url');
+            Swal.fire({
+                imageUrl: url,
+            })
+        });
+        // function viewAttachment(url){
+        //     var element = ($(event))
+        //     console.log(element)
+        //     Swal.fire({
+        //         imageUrl: element[0].attributes[2].nodeValue,
+        //     })
+        // }
+    });
+</script>
 @endsection

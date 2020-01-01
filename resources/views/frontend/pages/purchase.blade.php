@@ -467,7 +467,7 @@
                             if(response[0] = 'sukses'){
                                 Swal.fire( 'Success!','Transaksi Sukses', 'success').then(function(){
                                     // location.href = "{{route('fe.invoice_view',"+ response[1] +")}}";
-                                    location.href = "{{url('/invoice/')}}"+"/"+response[1] + "/view";
+                                    location.href = "{{url('/invoice/')}}"+"/"+response[1] + "/detail";
                                 });
                             }else{
                                 Swal.fire( 'Success!','Transaksi Sukses', 'error').then(function(){

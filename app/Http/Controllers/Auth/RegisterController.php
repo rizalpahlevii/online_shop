@@ -31,13 +31,13 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = '/home';
-    protected function redirecTo()
+    // protected $redirectTo = '/';
+    protected function redirectTo()
     {
         $user = auth()->user();
-        if (Auth::user()->isRole($user->user_type_id) == "Super Admin") {
+        if (\Auth::user()->isRole($user->user_type_id) == "Super Admin") {
             return '/backoffice';
-        } elseif (Auth::user()->isRole($user->user_type_id) == "Store Admin") {
+        } elseif (\Auth::user()->isRole($user->user_type_id) == "Store Admin") {
             return '/admin';
         } else {
             return '/';
@@ -64,8 +64,11 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'min:5', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'min:10'],
+            'gender' => ['required']
         ]);
     }
 
@@ -77,12 +80,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'username' => $data['username'],
             'password' => Hash::make($data['password']),
             'register_datetime' => Carbon::now(),
-            'user_type_id' => 3
+            'user_type_id' => 3,
+            'phone' => $data['phone'],
+            'sex' => $data['gender']
         ]);
         Mail::to($data['email'])->send(new WelcomeMember($user));
         return $user;

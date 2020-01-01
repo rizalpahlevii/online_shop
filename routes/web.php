@@ -10,6 +10,8 @@ Route::group(['namespace' => 'Frontend', 'middleware' => 'frontend'], function (
     $router->get('/invoice', 'MainController@invoice')->name('fe.invoice');
     $router->get('/invoice/{id}/view', 'MainController@invoiceView')->name('fe.invoice_view');
     $router->get('/invoice/{id}/detail', 'MainController@invoiceDetail')->name('fe.invoice_detail');
+    $router->get('/invoice/{id}/upload', 'MainController@invoiceUpload')->name('fe.invoice_upload');
+    $router->post('/invoice/uploadProof', 'MainController@uploadProof')->name('fe.upload_proof');
     $router->get('/profile', 'MainController@profile')->name('fe.myprofile');
     $router->get('/profile/edit', 'MainController@profileEdit')->name('fe.profile_edit');
     $router->post('/profile/update', 'MainController@profileUpdate')->name('fe.profileUpdate');
@@ -17,8 +19,6 @@ Route::group(['namespace' => 'Frontend', 'middleware' => 'frontend'], function (
     $router->post('/password/update', 'MainController@updatePassword')->name('fe.updatePassword');
     $router->get('/blog', 'MainController@getBlog')->name('fe.blog');
     $router->get('/blog/{slug}', 'MainController@getBlogView')->name('fe.blog_view');
-    $router->get('/invoice/upload/{id}', 'MainController@uploadPaymentProof')->name('fe.upload_payment');
-    $router->post('/invoice/upload', 'MainController@postPaymentProof')->name('fe.post_upload_payment');
 });
 Route::group(['prefix' => 'ajax'], function () use ($router) {
     $router->post('/checkout', 'Frontend\MainController@postCheckout')->name('checkout');

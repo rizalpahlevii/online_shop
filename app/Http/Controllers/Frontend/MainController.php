@@ -419,13 +419,35 @@ class MainController extends Controller
         $owner = User::find($invoice->store->user_id);
         return view($this->frontend . 'invoiceView', compact('invoice', 'owner'));
     }
-    public function uploadPaymentProof($id)
-    {
-    }
     public function invoiceDetail($id)
     {
         $invoice = Transaction::with('invoice', 'transactionAddress', 'transactionCourier', 'transactionDetail.product.category', 'store', 'member', 'courier')->where('member_id', Auth::id())->where('id', $id)->firstOrFail();
         $owner = User::find($invoice->store->user_id);
         return view($this->frontend . 'invoiceDetail', compact('invoice', 'owner'));
+    }
+    public function invoiceUpload($id)
+    {
+        $invoice = Transaction::with('invoice')->where('member_id', Auth::id())->where('id', $id)->firstOrFail();
+        $owner = User::with('store.payment')->where('id', $invoice->store->user_id)->firstOrFail();
+        return view($this->frontend . 'invoiceUpload', compact('invoice', 'owner'));
+    }
+    public function uploadProof(Request $request)
+    {
+        try {
+            $image = $request->file('proof_file');
+            $input['imagename'] = auth()->user()->email . '-' . time() . '.' . $image->getClientOriginalExtension();
+            $imageName = $image->getClientOriginalName();
+            $extensionFile = $image->getClientOriginalExtension();
+            request()->proof_file->move(public_path('images/attachments'), $input['imagename']);
+            $invoice1 = Invoice::where('transaction_id', $request->transaction_id)->first();
+            $invoice2 = Invoice::find($invoice1->id);
+            $invoice2->attachment = $input['imagename'];
+            $invoice2->payment_status = 'waiting_confirmation';
+            $invoice2->save();
+            $status = "Success Upload";
+        } catch (\Exception $e) {
+            $status = "gagal";
+        }
+        return response()->json($status);
     }
 }
