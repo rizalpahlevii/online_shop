@@ -139,5 +139,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], func
         $router->get('/transaction/print', 'StoreAdmin\ReportController@transactionPrint')->name('admin.report_transaction_print');
         $router->get('/transaction/excel', 'StoreAdmin\ReportController@transactionExcel')->name('admin.report_transaction_excel');
         $router->get('/shipment', 'StoreAdmin\ReportController@shipment')->name('admin.report_shipment');
+        $router->get('/shipment/excel', 'StoreAdmin\ReportController@shipmentExcel')->name('admin.report_shipment_excel');
+        $router->get('/shipment/print', 'StoreAdmin\ReportController@shipmentPrint')->name('admin.report_shipment_print');
     });
 });

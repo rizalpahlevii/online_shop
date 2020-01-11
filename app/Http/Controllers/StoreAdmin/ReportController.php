@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\StoreAdmin;
 
 use Api;
+use App\Exports\ShipmentExport;
 use App\Exports\TransactionExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -81,5 +82,17 @@ class ReportController extends Controller
     {
         $reports = Transaction::with('transactionAddress', 'transactionCourier', 'member')->where('store_id', $this->store->id)->get();
         return view($this->path . 'report.shipment', compact('reports'));
+    }
+    public function shipmentExcel()
+    {
+        $params = [
+            'store_id' => $this->store->id
+        ];
+        return Excel::download(new ShipmentExport($params), 'shipments' . date('Y-m-d') . '.xlsx');
+    }
+    public function shipmentPrint()
+    {
+        $reports = Transaction::with('transactionAddress', 'transactionCourier', 'member')->where('store_id', $this->store->id)->get();
+        return view($this->path . 'report.shipment_print', compact('reports'));
     }
 }

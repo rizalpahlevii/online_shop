@@ -34,6 +34,12 @@
                             @endif
                         </div>
                     </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <a href="{{route('admin.report_shipment_print')}}" class="btn btn-primary btn-print" style="margin-top:27px;" target="_blank">Print</a>
+                            <a href="{{route('admin.report_shipment_excel')}}" class="btn btn-warning btn-excel" style="margin-top:27px;" target="_blank">Excel</a>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-12 col-12 col-lg-12">
                                 <table class="table" id="table-transaction">
