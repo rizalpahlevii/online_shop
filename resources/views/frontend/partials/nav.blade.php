@@ -23,7 +23,7 @@
                         <a class="nav-link" href="#">Products</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Compare</a>
+                        <a class="nav-link" href="{{route('fe.store')}}">Store</a>
                         </li>
                         <li class="nav-item">
                         <a class="nav-link" href="{{route('fe.blog')}}">Blog</a>

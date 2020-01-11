@@ -9,6 +9,7 @@ use App\Store;
 use App\Transaction;
 use Auth;
 use Illuminate\Support\Facades\Auth as IlluminateAuth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class MainController extends Controller
@@ -36,5 +37,9 @@ class MainController extends Controller
             'transaction' => $transaction->count()
         ];
         return view($this->path . 'dashboard', compact('count'));
+    }
+    public function getChartPenjualan()
+    {
+        return response()->json([1000000, 10000000, 7500000, 6000000, 5000000, 4700000, 8900000, 12000000, 3750000, 1230000, 4870000, 1230000]);
     }
 }

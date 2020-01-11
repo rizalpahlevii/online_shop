@@ -19,6 +19,8 @@ Route::group(['namespace' => 'Frontend', 'middleware' => 'frontend'], function (
     $router->post('/password/update', 'MainController@updatePassword')->name('fe.updatePassword');
     $router->get('/blog', 'MainController@getBlog')->name('fe.blog');
     $router->get('/blog/{slug}', 'MainController@getBlogView')->name('fe.blog_view');
+    $router->get('/store', 'MainController@store')->name('fe.store');
+    $router->get('/store/{slug}', 'MainController@storeDetail')->name('fe.store_detail');
 });
 Route::group(['prefix' => 'ajax'], function () use ($router) {
     $router->post('/checkout', 'Frontend\MainController@postCheckout')->name('checkout');
@@ -84,6 +86,7 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']],
 // store admin
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], function () use ($router) {
     $router->get('/', 'StoreAdmin\MainController@dashboard')->name('admin.dashboard');
+    $router->get('/getChartPenjualan', 'StoreAdmin\MainController@getChartPenjualan')->name('admin.chart_penjualan');
     $router->group(['prefix' => 'product'], function () use ($router) {
         $router->get('/', 'StoreAdmin\ProductController@index')->name('admin.product_index');
         $router->get('/create', 'StoreAdmin\ProductController@create')->name('admin.product_create');
@@ -133,6 +136,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], func
 
     $router->group(['prefix' => 'report'], function () use ($router) {
         $router->get('/transaction', 'StoreAdmin\ReportController@transaction')->name('admin.report_transaction');
+        $router->get('/transaction/print', 'StoreAdmin\ReportController@transactionPrint')->name('admin.report_transaction_print');
+        $router->get('/transaction/excel', 'StoreAdmin\ReportController@transactionExcel')->name('admin.report_transaction_excel');
         $router->get('/shipment', 'StoreAdmin\ReportController@shipment')->name('admin.report_shipment');
     });
 });

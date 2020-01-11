@@ -36,9 +36,9 @@
                     </div>
                     <form method="get">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="month">Month</label>
                                             <select name="month" id="month" class="form-control">
@@ -58,7 +58,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="year">Year</label>
                                             <select name="year" id="year" class="form-control">
@@ -69,8 +69,10 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                            <input type="submit" class="btn btn-info" value="Filter" style="margin-top:27px;">
+                                    <div class="col-md-6">
+                                        <input type="submit" class="btn btn-info" value="Filter" style="margin-top:27px;">
+                                        <a href="#" class="btn btn-primary btn-print" style="margin-top:27px;">Print</a>
+                                        <a href="#" class="btn btn-warning btn-excel" style="margin-top:27px;">Excel</a>
                                     </div>
                                 </div>
                             </div>
@@ -115,10 +117,10 @@
                                                             $subItem += $rowD->price * $rowD->quantity;
                                                         }
                                                     @endphp
-                                                    <td>{{number_format($subItem)}}</td>
+                                                    <td>{{rupiah($subItem)}}</td>
                                                     
-                                                    <td>{{number_format($row->transactionCourier->value)}}</td>
-                                                    <td>{{number_format($row->transactionCourier->value+$subItem)}}</td>
+                                                    <td>{{rupiah($row->transactionCourier->value)}}</td>
+                                                    <td>{{rupiah($row->transactionCourier->value+$subItem)}}</td>
                                                     <td>{{$row->transactionCourier->courier}}</td>
                                                 </tr>
                                                 @php
@@ -132,16 +134,16 @@
                                             
                                             <tfoot>
                                                 <tr>
-                                                    <td colspan="6" align="right"><b>Total Product :</b></td>
-                                                    <td colspan="2"><b>{{number_format($finalSubItem)}}</b></td>
+                                                    <td colspan="6" align="right"><b>Total Product Price :</b></td>
+                                                    <td colspan="2"><b>{{rupiah($finalSubItem)}}</b></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="6" align="right"><b>Total Price Shipment :</b></td>
-                                                    <td colspan="2"><b>{{number_format($finalOngkir)}}</b></td>
+                                                    <td colspan="2"><b>{{rupiah($finalOngkir)}}</b></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="6" align="right"><b>Total :</b></td>
-                                                    <td colspan="2"><b>{{number_format($finalTotal)}}</b></td>
+                                                    <td colspan="2"><b>{{rupiah($finalTotal)}}</b></td>
                                                 </tr>
                                             </tfoot>
                                         @endif
@@ -161,6 +163,24 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('.btn-print').click(function(){
+            const year = $('#year').val();
+            const month = $('#month').val();
+            if(month == null || year == null){
+                alert('Oke');
+            }else{
+                window.open("{{ route('admin.report_transaction_print') }}" + `?month=${month}&year=${year}`);
+            }
+        });
+        $('.btn-excel').click(function(){
+            const year = $('#year').val();
+            const month = $('#month').val();
+            if(month == null || year == null){
+                alert('Oke');
+            }else{
+                window.open("{{ route('admin.report_transaction_excel') }}" + `?month=${month}&year=${year}`);
             }
         });
     });

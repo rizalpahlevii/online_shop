@@ -89,6 +89,7 @@ class MainController extends Controller
     public function addToCart(Request $request)
     {
         if (!$this->_getInfoProduct($request->product_id)) {
+            // jika product berbeda toko
             return response()->json('error');
         } else {
             $product = Product::findOrfail($request->product_id);
@@ -449,5 +450,16 @@ class MainController extends Controller
             $status = "gagal";
         }
         return response()->json($status);
+    }
+    public function store()
+    {
+        $stores = Store::all();
+        return view($this->frontend . 'store', compact('stores'));
+    }
+    public function storeDetail($slug)
+    {
+        $store = Store::with('user')->where('slug', $slug)->firstOrFail();
+        $products = Product::with('category')->where('store_id', $store->id)->get();
+        return view($this->frontend . 'storeDetail', compact('store', 'products'));
     }
 }

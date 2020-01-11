@@ -43,7 +43,7 @@
     
     <link rel="stylesheet" href="{{url('assets')}}/sweetalert2/dist/sweetalert2.min.css">
     <script src="{{url('assets')}}/sweetalert2/dist/sweetalert2.min.js"></script>
-
+   
   </head>
   <body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns  fixed-navbar">
 
@@ -134,6 +134,9 @@
     <script src="{{asset('backend')}}/js/core/app.js" type="text/javascript"></script>
     <script type="text/javascript" src="{{url('assets')}}/DataTables/DataTables-1.10.20/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="{{url('assets')}}/DataTables/DataTables-1.10.20/js/dataTables.bootstrap4.js"></script>
+    {{-- <script type="text/javascript" src="{{url('assets')}}/chartjs/Chart.bundle.js"></script> --}}
+    <script type="text/javascript" src="{{url('assets')}}/highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="{{url('assets')}}/highcharts/myCharts.js"></script>
     <script>
       $(document).ready(function(){
         $('#table-backend').dataTable();

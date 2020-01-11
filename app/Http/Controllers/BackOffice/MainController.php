@@ -5,6 +5,8 @@ namespace App\Http\Controllers\BackOffice;
 use App\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Store;
+use App\User;
 
 class MainController extends Controller
 {
@@ -15,7 +17,10 @@ class MainController extends Controller
     }
     public function dashboard()
     {
-        return view('backoffice.pages.dashboard');
+        $storeCount = Store::get();
+        $memberCount = User::where('user_type_id', 3)->get();
+
+        return view('backoffice.pages.dashboard', compact('storeCount', 'memberCount'));
     }
     public function getCourier()
     {
