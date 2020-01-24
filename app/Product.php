@@ -20,4 +20,8 @@ class Product extends Model
     {
         return $this->belongsTo(Product_category::class, 'product_category_id');
     }
+    public function transaction_detail()
+    {
+        return $this->hasMany(Transaction_detail::class, 'product_id');
+    }
 }

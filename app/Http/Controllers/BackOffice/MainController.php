@@ -5,8 +5,11 @@ namespace App\Http\Controllers\BackOffice;
 use App\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Product_category;
 use App\Store;
+use App\Transaction;
 use App\User;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class MainController extends Controller
 {
@@ -37,5 +40,22 @@ class MainController extends Controller
         }
         $courier->save();
         return response()->json('success');
+    }
+    public function getKategoriTertinggi()
+    {
+        $categories = Product_category::with('product', 'product.transaction_detail')->get();
+        $category_name = [];
+        $category_value = [];
+        foreach ($categories as $key => $row) {
+            $category_name[] = $row->name;
+            $value = 0;
+            foreach ($row->product as $rp_key => $product) {
+                foreach ($product->transaction_detail as $p_key => $detail) {
+                    $value += $detail->quantity;
+                }
+            }
+            $category_value[] = $value;
+        }
+        return response()->json([$category_name, $category_value]);
     }
 }

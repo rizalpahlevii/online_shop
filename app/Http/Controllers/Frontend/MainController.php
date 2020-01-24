@@ -453,7 +453,7 @@ class MainController extends Controller
     }
     public function store()
     {
-        $stores = Store::all();
+        $stores = Store::get();
         return view($this->frontend . 'store', compact('stores'));
     }
     public function storeDetail($slug)

@@ -1,6 +1,6 @@
 <?php
 
-
+Auth::routes();
 Route::group(['namespace' => 'Frontend', 'middleware' => 'frontend'], function () use ($router) {
     $router->get('/', 'MainController@index')->name('fe.landing');
     $router->get('/product/{slug}', 'MainController@detail')->name('fe.product_detail');
@@ -34,10 +34,10 @@ Route::group(['prefix' => 'ajax'], function () use ($router) {
 });
 
 
-Auth::routes();
 
 Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']], function () use ($router) {
     $router->get('/', 'BackOffice\MainController@dashboard')->name('backoffice.dashboard');
+    $router->get('/getKategoriTertinggi', 'BackOffice\MainController@getKategoriTertinggi');
     $router->group(['prefix' => 'user'], function () use ($router) {
         $router->get('/', 'BackOffice\UserController@index')->name('backoffice.user_index');
         $router->get('/create', 'BackOffice\UserController@create')->name('backoffice.user_create');
@@ -87,6 +87,7 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']],
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], function () use ($router) {
     $router->get('/', 'StoreAdmin\MainController@dashboard')->name('admin.dashboard');
     $router->get('/getChartPenjualan', 'StoreAdmin\MainController@getChartPenjualan')->name('admin.chart_penjualan');
+    $router->get('/getPenjualanProdukTertinggi', 'StoreAdmin\MainController@getPenjualanProdukTertinggi')->name('admin.getPenjualanProdukTertinggi');
     $router->group(['prefix' => 'product'], function () use ($router) {
         $router->get('/', 'StoreAdmin\ProductController@index')->name('admin.product_index');
         $router->get('/create', 'StoreAdmin\ProductController@create')->name('admin.product_create');

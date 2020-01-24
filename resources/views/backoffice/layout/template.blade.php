@@ -135,11 +135,14 @@
     <script src="{{asset('backend')}}/js/core/app.js" type="text/javascript"></script>
     <script type="text/javascript" src="{{url('assets')}}/DataTables/DataTables-1.10.20/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="{{url('assets')}}/DataTables/DataTables-1.10.20/js/dataTables.bootstrap4.js"></script>
+    <script type="text/javascript" src="{{url('assets')}}/highcharts/highcharts.js"></script>
+
     <script>
       $(document).ready(function(){
         $('#table-backend').dataTable();
       });
     </script>
+    @stack('script')
     <!-- END ROBUST JS-->
     <!-- BEGIN PAGE LEVEL JS-->
     <!-- END PAGE LEVEL JS-->

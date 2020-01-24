@@ -78,10 +78,62 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Cart Penjualan</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div id="chartPenjualan"></div>
+                    <div class="card-body collapse in" aria-expanded="true">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="chartPenjualan"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Penjualan Produk Tertinggi</div>
+                    <div class="card-body collapse in" aria-expanded="true">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="penjualanProdukTertinggi"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Pengingat Stok</div>
+                    <div class="card-body collapse in" aria-expanded="true">
+                        <div class="card-block">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table" id="tbl-backend">
+                                        <thead>
+                                            <tr>
+                                                <th>Nama Produk</th>
+                                                @foreach ($product as $item)
+                                                    <td>{{$item->name}}</td>
+                                                @endforeach
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>Stock</th>
+                                                @foreach ($product as $item)
+                                                    <td><?= ($item->stock < 1) ? '<span class="text-danger">Stok kosong</span>' : $item->stock;?></td>
+                                                @endforeach
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -93,3 +145,7 @@
     </div>
 </div>
 @endsection
+@push('script')
+    <script type="text/javascript" src="{{url('assets')}}/highcharts/myCharts.js"></script>
+    
+@endpush

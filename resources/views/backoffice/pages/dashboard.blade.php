@@ -74,9 +74,27 @@
                 </div>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Penjualan Kategory Tertinggi</div>
+                    <div class="card-body collapse in" aria-expanded="true">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="kategoriTertinggi"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>
 </div>
 @endsection
+@push('script')
+    <script src="{{asset('assets')}}/highcharts/backofficeChart.js"></script>
+@endpush
