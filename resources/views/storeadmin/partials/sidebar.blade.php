@@ -22,6 +22,8 @@
         </li>
         <li class="{{set_active(['admin.report_shipment'])}}"><a href="{{route('admin.report_shipment')}}" data-i18n="nav.google_charts.google_bar_charts" class="menu-item">Shipment</a>
         </li>
+        <li class="{{set_active(['admin.report_product_sold'])}}"><a href="{{route('admin.report_product_sold')}}" data-i18n="nav.google_charts.google_bar_charts" class="menu-item">Product Sold</a>
+        </li>
         
       </ul>
     </li>

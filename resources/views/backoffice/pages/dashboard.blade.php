@@ -90,6 +90,38 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Transaksi Terbanyak</div>
+                    <div class="card-body collapse in" aria-expanded="true">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="penjualanTertinggi"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Transaksi Terbanyak</div>
+                    <div class="card-body collapse in" aria-expanded="true">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="penjualanTertinggi2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>

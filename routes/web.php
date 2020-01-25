@@ -38,6 +38,7 @@ Route::group(['prefix' => 'ajax'], function () use ($router) {
 Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']], function () use ($router) {
     $router->get('/', 'BackOffice\MainController@dashboard')->name('backoffice.dashboard');
     $router->get('/getKategoriTertinggi', 'BackOffice\MainController@getKategoriTertinggi');
+    $router->get('/getPenjualanTertinggi', 'BackOffice\MainController@getPenjualanTertinggi');
     $router->group(['prefix' => 'user'], function () use ($router) {
         $router->get('/', 'BackOffice\UserController@index')->name('backoffice.user_index');
         $router->get('/create', 'BackOffice\UserController@create')->name('backoffice.user_create');
@@ -142,5 +143,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], func
         $router->get('/shipment', 'StoreAdmin\ReportController@shipment')->name('admin.report_shipment');
         $router->get('/shipment/excel', 'StoreAdmin\ReportController@shipmentExcel')->name('admin.report_shipment_excel');
         $router->get('/shipment/print', 'StoreAdmin\ReportController@shipmentPrint')->name('admin.report_shipment_print');
+        $router->get('/product-sold', 'StoreAdmin\ReportController@productSold')->name('admin.report_product_sold');
     });
 });

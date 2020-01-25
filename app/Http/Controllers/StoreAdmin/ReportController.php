@@ -95,4 +95,23 @@ class ReportController extends Controller
         $reports = Transaction::with('transactionAddress', 'transactionCourier', 'member')->where('store_id', $this->store->id)->get();
         return view($this->path . 'report.shipment_print', compact('reports'));
     }
+    public function productSold()
+    {
+        $products = Product::with('category')->where('store_id', $this->store->id)->get();
+        $array_product = [];
+        foreach ($products as $key => $row) {
+            $array_product[$key]['id'] = $row->id;
+            $array_product[$key]['name'] = $row->name;
+            $array_product[$key]['category'] = $row->category->name;
+            $array_product[$key]['selling_price'] = $row->selling_price;
+            $array_product[$key]['stock'] = $row->stock;
+            $transactions = Transaction_detail::where('product_id', $row->id)->get();
+            $value = 0;
+            foreach ($transactions as $t_key => $rowt) {
+                $value += $rowt->quantity;
+            }
+            $array_product[$key]['sold'] = $value;
+        }
+        return view($this->path . 'report.product_sold', compact('array_product'));
+    }
 }

@@ -15,7 +15,7 @@
                                 <div class="col-md-6">
                                     <b>Billed to :</b>
                                     <br>
-                                    {{$invoice->member->name}} / @ {{$invoice->member->username}}
+                                    {{$invoice->member->name}} /  {{'@'.$invoice->member->username}}
                                     <br>
                                     {{$invoice->member->email}}
                                     <br>
@@ -25,7 +25,7 @@
                                     <b>Store :</b>
                                     <br>
                                     {{$invoice->store->name}} , <br>
-                                    {{$invoice->store->address}} <br>
+                                    {!!$invoice->store->address!!} <br>
                                     {{$invoice->store->districts_name}} , {{$invoice->store->province_name}}
                                     
                                     <br><br>

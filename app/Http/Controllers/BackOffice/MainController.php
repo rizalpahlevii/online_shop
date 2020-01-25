@@ -58,4 +58,23 @@ class MainController extends Controller
         }
         return response()->json([$category_name, $category_value]);
     }
+    public function getPenjualanTertinggi()
+    {
+        $stores = Store::with('transaction', 'transaction.transactionDetail')->get();
+        $store_a = [];
+        $transaction_total = [];
+        $value_total = [];
+        foreach ($stores as $key => $store) {
+            $store_a[] = $store->name;
+            $transaction_total[] = count($store->transaction);
+            $value = 0;
+            foreach ($store->transaction as $t_key => $transaction) {
+                foreach ($transaction->transactionDetail as $d_key => $detail) {
+                    $value += $detail->total;
+                }
+            }
+            $value_total[] = $value;
+        }
+        return response()->json([$store_a, $transaction_total, $value_total]);
+    }
 }
