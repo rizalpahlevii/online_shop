@@ -8,6 +8,7 @@ use App\Invoice;
 use App\Store;
 use App\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
@@ -52,7 +53,7 @@ class TransactionController extends Controller
     }
     public function detail($id)
     {
-        $transaction = Transaction::with('transactionAddress', 'member', 'courier', 'store', 'invoice', 'transactionDetail', 'transactionDetail.product', 'transactionDetail.product.category', 'store.payment')->where('store_id', '=', $this->store->id)->where('id', '=', $id)->first();
+        $transaction = Transaction::with('transactionAddress', 'member', 'transactionCourier', 'courier', 'store', 'invoice', 'transactionDetail', 'transactionDetail.product', 'transactionDetail.product.category', 'store.payment')->where('store_id', '=', $this->store->id)->where('id', '=', $id)->first();
         return view($this->path . 'transaction.detail', compact('transaction'));
     }
     public function changePaymentStatus(Request $request)
@@ -61,7 +62,9 @@ class TransactionController extends Controller
         $transaction_id = $request->transaction_id;
         $invoice1 = Invoice::where('transaction_id', '=', $transaction_id)->first();
         $invoice = Invoice::find($invoice1->id);
-
+        if ($request->status == "paid") {
+            $invoice->payment_date = Carbon::now();
+        }
         $invoice->payment_status = $status;
         if ($invoice->save()) {
             return 'success';

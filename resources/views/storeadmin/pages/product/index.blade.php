@@ -68,7 +68,7 @@
                                                     <a class="dropdown-item" href="#" id="decreaseStock" data-kode="{{$row->id}}">Decrease Stock</a>
                                                     <a class="dropdown-item" href="{{route('admin.product_show',$row->id)}}" id="edit" data-kode="{{$row->id}}">Edit</a>
                                                     <a class="dropdown-item" href="#" id="changeCategory" data-kode="{{$row->id}}">Change Category</a>
-                                                    <a class="dropdown-item" href="#" id="Delete" data-kode="{{$row->id}}">Delete</a>
+                                                    <a class="dropdown-item" href="#" id="delete-product" data-kode="{{$row->id}}">Delete</a>
                                                 </div>
                                             </div>
         
@@ -211,6 +211,44 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $(document).on('click','#delete-product',function(){
+            const konf =confirm('Are you sure you want to delete this product ? ');
+            if(konf){
+                productId = $(this).data('kode');
+                $.ajax({
+                    url : "{{route('admin.product_delete')}}",
+                    method : "POST",
+                    dataType : "json",
+                    data : {
+                        id : productId
+                    },
+                    beforeSend:function(){
+                        Swal.fire({
+                            title: 'Loading .....',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            timer: 2000,
+                            onOpen: () => {
+                                Swal.showLoading()
+                            }
+                        })
+                    },
+                    success:function(response){
+                        if(response == "success"){
+                            Swal.fire( 'Success!','Success deleted product!', 'success').then(function () {  
+                                location.reload();
+                            });
+                        }else{
+                            Swal.fire('Error!', 'Error!','error')
+                        }
+                        location.reload();
+                    },
+                    error:function(request,status,error){
+                        Swal.fire( 'Error!',request.responseText, 'error');
+                    }
+                });
+            }
+        });
         $(document).on('click','#increaseStock',function(){
             productId = $(this).data('kode');
             $.ajax({
@@ -258,11 +296,14 @@
                 },
                 success:function(response){
                     if(response == "success"){
-                        Swal.fire( 'Success!','Update Success!', 'success');
+                        Swal.fire( 'Success!','Update Success!', 'success').then(function(){
+                            location.reload();
+                        });
                     }else{
-                        Swal.fire('Error!', 'Error!','error')
+                        Swal.fire('Error!', 'Error!','error').then(function(){
+                            location.reload();
+                        })
                     }
-                    location.reload();
                 },
                 error:function(request,status,error){
                     Swal.fire( 'Error!',request.responseText, 'error');
@@ -317,11 +358,14 @@
                 },
                 success:function(response){
                     if(response == "success"){
-                        Swal.fire( 'Success!','Update Success!', 'success');
+                        Swal.fire( 'Success!','Update Success!', 'success').then(function(){
+                            location.reload();
+                        });
                     }else{
-                        Swal.fire('Error!', 'Error!','error')
+                        Swal.fire('Error!', 'Error!','error').then(function(){
+                            location.reload();
+                        });
                     }
-                    location.reload();
                 },
                 error:function(request,status,error){
                     Swal.fire( 'Error!',request.responseText, 'error');

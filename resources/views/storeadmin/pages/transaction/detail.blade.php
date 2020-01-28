@@ -32,10 +32,7 @@
                         <div class="col-md-6 col-sm-12 text-xs-center text-md-right">
                           <h2>INVOICE</h2>
                           <p class="pb-3"># {{$transaction->transaction_number}}</p>
-                          <ul class="px-0 list-unstyled">
-                            <li>Balance Due</li>
-                            <li class="lead text-bold-800">$ 12,000.00</li>
-                          </ul>
+                          
                         </div>
                       </div>
                       <!--/ Invoice Company Details -->
@@ -84,12 +81,12 @@
                                 <tr>
                                   <td scope="row">{{$loop->iteration}}</td>
                                   <td>{{$rowDetail->product->name}}</td>
-                                  <td class="text-xs-right">{{number_format($rowDetail->product->selling_price) }}</td>
+                                  <td class="text-xs-right">{{rupiah($rowDetail->price) }}</td>
                                   <td class="text-xs-right">{{$rowDetail->quantity }}</td>
-                                  <td class="text-xs-right">{{number_format($rowDetail->quantity * $rowDetail->product->selling_price)}}</td>
+                                  <td class="text-xs-right">{{rupiah($rowDetail->quantity * $rowDetail->price)}}</td>
                                 </tr>
                                 @php
-                                    $total += $rowDetail->quantity * $rowDetail->product->selling_price;
+                                    $total += $rowDetail->quantity * $rowDetail->price;
                                 @endphp
                                 @endforeach
                               </tbody>
@@ -131,12 +128,16 @@
                                 <tbody>
                                   <tr>
                                     <td>Payment Date</td>
-                                    <td class="text-xs-right"></td>
+                                    <td class="text-xs-right">{{rupiah($transaction->transactionCourier->value)}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Cost Value</td>
+                                    <td class="text-xs-right">{{rupiah($transaction->transactionCourier->value)}}</td>
                                   </tr>
                                 
                                   <tr class="bg-grey bg-lighten-4">
                                     <td class="text-bold-800">Total</td>
-                                    <td class="text-bold-800 text-xs-right">{{number_format($total)}}</td>
+                                    <td class="text-bold-800 text-xs-right">{{rupiah($transaction->transactionCourier->value+$total)}}</td>
                                   </tr>
                                 </tbody>
                               </table>

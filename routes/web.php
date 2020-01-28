@@ -35,6 +35,9 @@ Route::group(['prefix' => 'ajax'], function () use ($router) {
 
 
 
+
+
+// backoffice
 Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']], function () use ($router) {
     $router->get('/', 'BackOffice\MainController@dashboard')->name('backoffice.dashboard');
     $router->get('/getKategoriTertinggi', 'BackOffice\MainController@getKategoriTertinggi');
@@ -84,6 +87,13 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth', 'superadmin']],
     });
 });
 
+
+
+
+
+
+
+
 // store admin
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], function () use ($router) {
     $router->get('/', 'StoreAdmin\MainController@dashboard')->name('admin.dashboard');
@@ -95,7 +105,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'storeadmin']], func
         $router->post('/store', 'StoreAdmin\ProductController@store')->name('admin.product_store');
         $router->get('/edit/{id}', 'StoreAdmin\ProductController@show')->name('admin.product_show');
         $router->put('/update/{id}', 'StoreAdmin\ProductController@update')->name('admin.product_update');
-        $router->get('/delete/{id}', 'StoreAdmin\ProductController@delete')->name('admin.product_delete');
+        $router->post('/delete', 'StoreAdmin\ProductController@destroy')->name('admin.product_delete');
 
         // ajax
         $router->get('/ajxIncreaseStock/{id}', 'StoreAdmin\ProductController@increaseStock');

@@ -138,7 +138,7 @@
                                                             <b>{{$row->member->phone}}</b>
                                                         </small>
                                                     </td>
-                                                    <td>{{$row->total_amount}}</td>
+                                                    <td>{{rupiah($row->total_amount)}}</td>
                                                     <td>
                                                         
                                                         {!!payment_label($row->invoice->payment_status,$row->id)!!}<br>

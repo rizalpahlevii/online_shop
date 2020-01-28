@@ -212,9 +212,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $product = Product::find($request->id);
+        if ($product->delete()) {
+            $status = "success";
+        } else {
+            $status = "error";
+        }
+        return response()->json($status);
     }
     public function increaseStock($id)
     {
