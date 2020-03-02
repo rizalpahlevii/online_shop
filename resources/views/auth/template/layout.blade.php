@@ -48,7 +48,7 @@ $(document).ready(function() {
 	<div class="container">
 <div class="row align-items-center">
 	<div class="col-lg-2 col-4">
-		<a href="http://bootstrap-ecommerce.com" class="brand-wrap">
+		<a href="{{route('fe.landing')}}" class="brand-wrap">
 			<img class="logo" src="{{asset('frontend')}}/images/logo.png">
 		</a> <!-- brand-wrap.// -->
 	</div>

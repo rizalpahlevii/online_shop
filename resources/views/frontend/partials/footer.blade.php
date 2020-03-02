@@ -55,7 +55,7 @@
     
             <section class="footer-bottom row">
                 <div class="col-md-2">
-                    <p class="text-muted"> &copy 2019 Company name </p>
+                    <p class="text-muted"> &copy 2019 Online Shop </p>
                 </div>
                 <div class="col-md-8 text-md-center">
                     <span  class="px-2">info@pixsellz.io</span>
