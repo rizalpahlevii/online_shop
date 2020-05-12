@@ -17,7 +17,7 @@ Use the package manager (composer and npm) for installing
 
 1. Do the following commands for installing
 ```bash
-git clone https://github.com/rizalpahlevi372/online_shop.git
+git clone https://github.com/rizalpahlevii/online_shop.git
 cd online_shop
 composer install
 npm install
